@@ -1,0 +1,32 @@
+{
+    "paths": {
+      "input_files": [
+        "../input_csv/cookies_banner_present.csv",
+        "../input_csv/cookies_banner_not_present.csv"
+      ],
+      "output_files": {
+        "banner_present": "result/cookies_banner_present.csv",
+        "banner_not_present": "result/cookies_banner_not_present.csv"
+      }
+    },
+    "chrome": {
+      "user_data_dir": "./chrome-user-data/",
+      "executable_path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    },
+    "profiles": [
+    {
+      "name": "Profile 1",
+      "directory": "Profile 1",
+      "csv_field": "allow_3rd_party",
+      "executable_path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    },
+    { "name": "Profile 11", "directory": "Profile 11", "csv_field": "initial_cookies" },
+    { "name": "Profile 2", "directory": "Profile 2", "csv_field": "block_3rd_party" },
+    { "name": "Profile 3", "directory": "Profile 3", "csv_field": "do_not_track" },
+    { "name": "Profile 4", "directory": "Profile 4", "csv_field": "ublock" },
+    { "name": "Profile 5", "directory": "Profile 5", "csv_field": "gpc_enabled" },
+    { "name": "Profile 6", "directory": "Profile 6", "csv_field": "consent_accept" },
+    { "name": "Profile 9", "directory": "Profile 9", "csv_field": "consent_reject" }
+
+  ]
+}

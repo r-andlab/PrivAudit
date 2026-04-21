@@ -1,0 +1,577 @@
+cookie_name,category,description
+nmstat,"Analytics""","""This cookie is used to help record the visitor's use of the website. It is used to collect statistics about site usage such as when the visitor last visited the site. This information is then used to improve the user experience on the website. This Siteimprove Analytics cookie contains a randomly generated ID used to recognize the browser when a visitor reads a page. The cookie contains no personal information and is used only for web analytics. It is also used to track the sequence of pages a visitor looks at during a visit to the site. This information can be used to reduce user journeys"""
+_gid,"Analytics""","ID used to identify users for 24 hours after last activity"""
+_gat_%5bobject%20object%5d,"Analytics""","Used to monitor number of Google Analytics server requests when using Google Tag Manager"""
+_ga_csll4zek4l,"Analytics""","ID used to identify users"""
+_ga,"Analytics""","ID used to identify users"""
+_hjsessionuser_1395777,"Functional""","""Hotjar cookie that is set when a user first lands on a page with the Hotjar script. It is used to persist the Hotjar User ID"""
+_hjsession_1395777,"Functional""","A cookie that holds the current session data. This ensues that subsequent requests within the session window will be attributed to the same Hotjar session."""
+_gat_gtag_ua_107671946_1,"Analytics""","Used to monitor number of Google Analytics server requests when using Google Tag Manager"""
+_ga_n47r32en4m,"Analytics""","ID used to identify users"""
+_4c_,"Functionality""",""" _4c_ is used for the ForeSee customer survey and feedback functionality to record part of a user's visit to help improve the user experience"""
+__cf_bm,"Functional""","Cloudflare's bot products identify and mitigate automated traffic to protect your site from bad bots. Cloudflare places the __cf_bm cookie on End User devices that access Customer sites that are protected by Bot Management or Bot Fight Mode. The __cf_bm cookie is necessary for the proper functioning of these bot solutions."""
+optanonconsent,"Functional""","""This cookie is set by the cookie compliance solution from OneTrust. It stores information about the categories of cookies the site uses and whether visitors have given or withdrawn consent for the use of each category. This enables site owners to prevent cookies in each category from being set in the user’s browser"""
+_biz_uid,"Analytics""","Uniquely identify a user on the current domain."""
+_mkto_trk,"Marketing""","""This cookie is associated with an email marketing service provided by Marketo. This tracking cookie allows a website to link visitor behaviour to the recipient of an email marketing campaign"""
+amcvs_8ad56f28618a50850a495fb6%40adobeorg,"Marketing""","The AMCVS cookie serves as a flag indicating that the session has been initialized. Its value is always 1 and discontinues when the session has ended."""
+amcv_8ad56f28618a50850a495fb6%40adobeorg,"Marketing""","Adobe Experience Cloud uses a cookie to store a unique visitor ID that is used across Experience Cloud Solutions."""
+audit_p,"Marketing""","Used to store the user's user intereset"""
+khaos_p,"Marketing""","Used to store the user's consent status for the current domain."""
+receive-cookie-deprecation,"Functional""","This cookie ensures browers in an experiment group of the Chrome-facilitated testing period include the Sec-Cookie-Deprecation request header as soon as it becomes available."""
+_biz_na,"Analytics""","A sequence number that Marketo Measure includes for all requests for internal diagnostics purposes."""
+_biz_flagsa,"Analytics""","""A cookie that stores various user information"""
+_biz_pendinga,"Analytics""","Temporarily stores analytics data until successfully sent to Marketo Measure server."""
+optanonalertboxclosed,"Functional""","""This cookie is set by the cookie compliance solution from OneTrust. It stores information about the categories of cookies the site uses and whether visitors have given or withdrawn consent for the use of each category. This enables site owners to prevent cookies in each category from being set in the users browser"""
+csm-hit,"Performance""","""track user interactions"""
+slireg,"Targeting/Advertising""","""is associated with Salesloft which is used for live website tracking to help identify and qualify leads"""
+sliguid,"Targeting/Advertising""","is associated with Salesloft which is used for live website tracking to help identify and qualify leads"""
+slirequested,"Targeting/Advertising""","is associated with Salesloft which is used for live website tracking to help identify and qualify leads"""
+nid,"Marketing""","This cookies is used to collect website statistics and track conversion rates and Google ad personalisation"""
+ogpc,"Marketing""","These cookies are used by Google to store user preferences and information while viewing Google mapped pages."""
+aec,"Functional""","""AEC cookies ensure that requests within a browsing session are made by the user"""
+msfpc,"Marketing""","""Identifies unique web browsers visiting Microsoft sites. These cookies are used for advertising"""
+mbox,"Marketing""","Adobe Target uses cookies to give website operators the ability to test which online content and offers are more relevant to visitors."""
+_cs_cvars,"Analytics""","This cookie is used to capture analytics on the web page"""
+amcv_ea76ade95776d2ec7f000101%40adobeorg,"Marketing""","Adobe Experience Cloud uses a cookie to store a unique visitor ID that is used across Experience Cloud Solutions."""
+_cs_id,"Analytics""","""Contains: user ID"""
+_tt_enable_cookie,"Marketing""","Tracking cookie used by TikTok to identify a visitor"""
+at_check,"Functional""","A simple test value used to determine if a visitor supports cookies. Set each time a visitor requests a page."""
+ai_session,"Functional""","This is a unique anonymous session identifier cookie."""
+amcvs_ea76ade95776d2ec7f000101%40adobeorg,"Marketing""","The AMCVS cookie serves as a flag indicating that the session has been initialized. Its value is always 1 and discontinues when the session has ended."""
+_cs_s,"Analytics""","""Number of page views for the current session"""
+microsoftapplicationstelemetrydeviceid,"Analytics""","Used to store a unique device ID for tracking behavior and usage of the website"""
+ak_bmsc,"Functional""","""Cookie used to optimize performance"""
+mc1,"Marketing""","""Identifies unique web browsers visiting Microsoft sites. These cookies are used for advertising"""
+_ttp,"Marketing""","Tracking cookie used by TikTok to identify a visitor"""
+muid,"Marketing""","""Identifies unique web browsers visiting Microsoft sites. These cookies are used for advertising"""
+_clck,"Analytics""",""" This cookie is installed by Microsoft Clarity to store information of how visitors use a website and help in creating an analytics report of how the website is doing. The data collected including the number visitors"""
+_clsk,"Analytics""","""This cookie is installed by Microsoft Clarity to store information of how visitors use a website and help in creating an analytics report of how the website is doing. The data collected including the number visitors"""
+ms0,"Functional""","Identifies a specific session."""
+_cs_c,"Analytics""","Consent state: digit between 0 and 3. Used for capturing analytics on web pages"""
+bm_sv,"Functional""","Used by Akamai Botman Manager to help differentiate between web requests generated by humans and web requests generated by bots or other automated processes"""
+_ym_d,"Analytics""","Saves the date of the user's first site session"""
+vid,"Analytics""","ID associated with a visitor to a LinkedIn microsite which is used to determine conversions for lead gen purposes"""
+s,"Marketing""","""Facebook browser identification"""
+_ym_isad,"Analytics""","Determines whether a user has ad blockers"""
+c,"Marketing""","""Records anonymous user data"""
+_ym_uid,"Analytics""","Used for identifying site users"""
+i,"Marketing""","""Registers user data"""
+__cmpcpcs1,"Functional""","List of custom purpose IDs separated by underscore"""
+__cmpcvcs1,"Functional""","List of custom vendor IDs separated by underscore specific to a single account in our platform"""
+bh,"Analytics""","Collects data on user behaviour and interaction in order to optimize the website and make advertisement on the website more relevant."""
+oid,"Functional""","Used to redirect a user to the correct Salesforce org and assist the user for the next login."""
+wd,"Functional""","This cookie stores the browser window dimensions and is used by Facebook to optimise the rendering of the page."""
+fr,"Marketing""","""Contains a unique browser and user ID"""
+sb,"Marketing""","""Facebook browser identification"""
+datr,"Marketing""","""Used to prevent creation of fake / spammy accounts. Datr cookie is associated with a browser"""
+s_vi,"Analytics""","Contains a unique ID to identify a user"""
+s_cc,"Analytics""","Used to determine if browser of user accepts cookies or not"""
+s_fid,"Analytics""","Alternative cookie with unique user ID / timestamp when the s_vi cookie can not be set for technical reasons"""
+pref,"Functional""","""This cookie stores your preferences and other information"""
+visitor_privacy_metadata,"Marketing""","Youtube visitor privacy metadata cookie"""
+visitor_info1_live,"Marketing""","Tries to estimate the users' bandwidth on pages with integrated YouTube videos. Also used for marketing"""
+ysc,"Functional""","Registers a unique ID to keep statistics of what videos from YouTube the user has seen."""
+gps,"Marketing""","Registers a unique ID on mobile devices to enable tracking based on geographical GPS location."""
+_uetsid,"Marketing""","This cookie is used by Bing to determine what ads should be shown that may be relevant to the end user perusing the site."""
+_ga_sqcrb0txzw,"Analytics""","ID used to identify users"""
+_uetvid,"Marketing""","This is a cookie utilised by Microsoft Bing Ads and is a tracking cookie. It allows us to engage with a user that has previously visited our website."""
+mid,"Functional""","This is a functionality cookie used to optimize the use of Instagram on the website"""
+ig_did,"Marketing""","This is a targeting cookie used to track Instagram user visits."""
+gt,"Marketing""","""Twitter uses these cookies to support plugin integration with our website. If you use the Tweet plugin and log into your X account"""
+guest_id_marketing,"Marketing""","This cookie is for advertising when logged out"""
+personalization_id,"Marketing""","""Unique value with which users can be identified by X. Collected information is used to be personalize X services"""
+guest_id_ads,"Marketing""","This cookie is for advertising when logged out"""
+guest_id,"Marketing""","This cookie is set by X to identify and track the website visitor. Registers if a users is signed in the X platform and collects information about ad preferences."""
+amcvs_14215e3d5995c57c0a495c55%40adobeorg,"Marketing""","The AMCVS cookie serves as a flag indicating that the session has been initialized. Its value is always 1 and discontinues when the session has ended."""
+lang,"Functional""","Used to remember a user's language setting"""
+bscookie,"Marketing""","Used by LinkedIn to track the use of embedded services."""
+aam_uuid,"Marketing""","Adobe Audience Manager - data management platform uses these cookies to assign a unique ID when users visit a website."""
+usermatchhistory,"Marketing""","""These cookies are set by LinkedIn for advertising purposes"""
+jsessionid,"Functional""","""JSESSIONID is a cookie generated by Servlet containers and used for session management in J2EE web applications for HTTP protocol. If a Web server is using a cookie for session management"""
+li_sugr,"Marketing""","Used to make a probabilistic match of a user's identity outside the Designated Countries"""
+analyticssynchistory,"Analytics""","Used to store information about the time a sync with the lms_analytics cookie took place for users in the Designated Countries"""
+lidc,"Marketing""","""Used by the social networking service"""
+amcv_14215e3d5995c57c0a495c55%40adobeorg,"Marketing""","Adobe Experience Cloud uses a cookie to store a unique visitor ID that is used across Experience Cloud Solutions."""
+bcookie,"Marketing""","Used by LinkedIn to track the use of embedded services."""
+rt,"Functional""","This cookie is used to identify the visitor through an application. This allows the visitor to login to a website through their LinkedIn application for example."""
+wmf-last-access,"Analytics""","""This cookie is used by the Wikimedia Foundation. It is used to determine the last time a user visited a page"""
+geoip,"Analytics""","This cookie is used to try and understand the user's geographical location (country) based on their IP address."""
+_gat_ua-38676921-23,"Analytics""","Used to monitor number of Google Analytics server requests when using Google Tag Manager"""
+_ga_177s7q8j6q,"Analytics""","ID used to identify users"""
+_rwbf,"Marketing""","This cookie helps us to track the effectiveness of advertising campaigns on the Bing advertising network."""
+_hpvn,"Marketing""","Analysis service that connects data from the Bing advertising network with actions performed on the website."""
+srchhpgusr,"Marketing""","""Unique value that records info about consecutive ads - includes: total impressions"""
+srchusr,"Marketing""","""Unique value that records info about consecutive ads - includes: total impressions"""
+srchuid,"Marketing""","""Unique value that records info about consecutive ads - includes: total impressions"""
+muidb,"Marketing""","""Identifies unique web browsers visiting Microsoft sites. These cookies are used for advertising"""
+_ur,"Marketing""","This cookie is used by the Bing advertising network for advertising tracking purposes."""
+srchd,"Marketing""","""Unique value that records info about consecutive ads - includes: total impressions"""
+_octo,"Analytics""","""This cookie is used for session management including caching of dynamic content"""
+tz,"Functional""","This cookie allows us to customize timestamps to your time zone."""
+_gh_sess,"Functional""","""_gh_sess	This cookie is used for temporary application and framework state between pages like what step the user is on in a multiple step form."""
+_ga_cg6gj50g8j,"Analytics""","ID used to identify users"""
+_ga_etdrc9qj6s,"Analytics""","ID used to identify users"""
+wa_ul,"Functional""","Used to access the service it provides."""
+wa_lang_pref,"Functional""","Used by WhatsApp to save language preferences"""
+sessionfunneleventlogged,"Marketing""","A generic technical cookie used for storing user session identifier in web applications"""
+_routing_id,"Marketing""","Allows users to share pictures via Pinterest / the Pin It button. Pinterest can collect statistical information about usage of their service."""
+_pinterest_sess,"Functional""","""session cookie (expires after your session) which collects anonymous data about a user's visit to the website"""
+eloqua,"Analytics""","This cookies allow better understand how visitors use the website. This cookie data may be used to personalise the content or design of the website"""
+_hjsession_488217,"Functional""","A cookie that holds the current session data. This ensues that subsequent requests within the session window will be attributed to the same Hotjar session."""
+_hjsessionuser_488217,"Functional""","""Hotjar cookie that is set when a user first lands on a page with the Hotjar script. It is used to persist the Hotjar User ID"""
+visid_incap_3147896,"Functional""","""This cookie is from the incapsula CDN and helps us with reliability"""
+_rdt_uuid,"Marketing""","This cookie is set by Reddit and is used for remarketing on reddit.com."""
+liveagent_sid,"Functional""","Identifies a Live Agent session. Stores a unique pseudonymous ID for a specific browser session over chat service."""
+s_tp,"Analytics""","This lets us know how much of the page you viewed."""
+nlbi_1323850,"Functional""","Incapsula DDoS Protection and Web Application Firewall: Load balancing cookie. To ensure requests by a client are sent to the same origin server."""
+incap_ses_1829_3147896,"Functional""","This cookie is set to allow a visitor to receive site content from one out of multiple servers as the visitor browses the site. This allows the visitor's session to be maintained."""
+_gat_gtag_ua_8640690_1,"Analytics""","Used to monitor number of Google Analytics server requests when using Google Tag Manager"""
+_ga_q35g17lvrx,"Analytics""","ID used to identify users"""
+visid_incap_1323850,"Functional""","""This cookie is from the incapsula CDN and helps us with reliability"""
+amcv_9a343704532966210a490d44%40adobeorg,"Marketing""","Adobe Experience Cloud uses a cookie to store a unique visitor ID that is used across Experience Cloud Solutions."""
+amcvs_9a343704532966210a490d44%40adobeorg,"Marketing""","The AMCVS cookie serves as a flag indicating that the session has been initialized. Its value is always 1 and discontinues when the session has ended."""
+private_content_version,"Functional""","""Appends a random"""
+s_ppv,"Analytics""","Stores information on the percentage of the page displayed"""
+nlbi_1323850_2147483392,"Functional""","Incapsula DDoS Protection and Web Application Firewall: Load balancing cookie. To ensure requests by a client are sent to the same origin server."""
+incap_ses_443_1323850,"Functional""","This cookie is set to allow a visitor to receive site content from one out of multiple servers as the visitor browses the site. This allows the visitor's session to be maintained."""
+tbla_id,"Marketing""","""This cookie is used to collect information on a visitor. This information will become an ID string with information on a specific visitor – ID information strings can be used to target groups with similar preferences"""
+awsalb,"Functional""","These cookies enable us to allocate server traffic to make the user experience as smooth as possible. A so-called load balancer is used to determine which server currently has the best availability. The information generated cannot identify you as an individual."""
+awsalbtgcors,"Functional""","""For continued stickiness support with CORS use cases after the Chromium update"""
+awsalbtg,"Functional""","""For continued stickiness support with CORS use cases after the Chromium update"""
+gpp,"Functional""","""A valid IAB Global Privacy Platform consent string. If the string is missing"""
+a1,"Marketing""","Ads targeting cookie for Yahoo"""
+awsalbcors,"Functional""","""For continued stickiness support with CORS use cases after the Chromium update"""
+axids,"Marketing""","""This cookie is used to collect information on a visitor. This information will become an ID string with information on a specific visitor – ID information strings can be used to target groups with similar preferences"""
+a1s,"Marketing""","Ads targeting cookie for Yahoo"""
+cmp,"Marketing""","""This cookie is used to collect information on a visitor. This information will become an ID string with information on a specific visitor – ID information strings can be used to target groups with similar preferences"""
+a3,"Marketing""","Ads targeting cookie for Yahoo"""
+_ga_h733y2bzes,"Analytics""","ID used to identify users"""
+_ga_bmc5vgr8ys,"Analytics""","ID used to identify users"""
+_ga_zwg1nshwd8,"Analytics""","ID used to identify users"""
+_cs_mk_ga,"Analytics""","Ensures Google dimensions and eVars are set only once every 30 minutes. Stores the value of the csMatchingKey which is a random number plus timestamp in milliseconds."""
+sp_landing,"Functional""","Required to ensure the functionality of the integrated Spotify plugin. This does not result in any cross-site functionality."""
+_gat_ua-5784146-31,"Analytics""","Used to monitor number of Google Analytics server requests when using Google Tag Manager"""
+sp_t,"Functional""","Required to ensure the functionality of the integrated Spotify plugin. This does not result in any cross-site functionality."""
+_ga_k07zjqfysz,"Analytics""","ID used to identify users"""
+__utmc,"Analytics""","Used only with old Urchin versions of Google Analytics and not with GA.js. Was used to distinguish between new sessions and visits at the end of a session."""
+__utmb,"Analytics""","Used to distinguish new sessions and visits. This cookie is set when the GA.js javascript library is loaded and there is no existing __utmb cookie. The cookie is updated every time data is sent to the Google Analytics server."""
+__utma,"Analytics""","ID used to identify users and sessions"""
+__utmz,"Analytics""","Contains information about the traffic source or campaign that directed user to the website. The cookie is set when the GA.js javascript is loaded and updated when data is sent to the Google Anaytics server"""
+sp,"Analytics""","Stores a server-side collector generated unique identifier for a user that is sent with all subsequent tracking event events. Can be used as a first party cookie is the collector is on the same domain as the site."""
+wp-wpml_current_language,"Functional""","This cookie is used to track the language preference fo the user"""
+mstoken,"Marketing""","Collects information on user behaviour on multiple websites. This information is used in order to optimize the relevance of advertisement on the website."""
+ttwid,"Marketing""","""Used by the social networking service"""
+_ga_1h4vg5f5jf,"Analytics""","ID used to identify users"""
+_parsely_visitor,"Functional""","JSON document uniquely identifying a browser and counting its sessions"""
+_parsely_session,"Functional""","JSON document storing information identifying a browsing session according to Parsely’s proprietary definition"""
+usprivacy,"Functional""","ShareThis reads if the usprivacy cookie is present in the publisher domain."""
+tk_qs,"Analytics""","JetPack sets this cookie to store a randomly-generated anonymous ID which is used only within the admin area and for general analytics tracking."""
+_fbp,"Marketing""","Used by Facebook to deliver a series of advertisement products such as real time bidding from third party advertisers"""
+tk_ai,"Functional""","""Stores a randomly-generated anonymous ID. This is only used within the dashboard (/wp-admin) area and is used for usage tracking"""
+_yasc,"Analytics""","Collects data on the user across websites - This data is used to make advertisement more relevant."""
+atuserid,"Analytics""","Visitor ID for client-side cookie sites"""
+mboxedgecluster,"Strictly Necessary""","is associated with Adobe Target which is used to communicate the correct edge cluster to at"""
+tmr_detect,"Targeting/Advertising""","is associated with Mail"""
+tmr_lvid,"Performance""","is associated with MyTarget and Mail"""
+driftplaybook,"Functionality""","is associated with DriftPlaybook which is used to predefine and alternate between Drift Chat playbooks"""
+s_gpv,"Performance""","""is associated with Adobe Analytics which is used to maintain the value of any variable captured"""
+liveagent_vc,"Functionality""","""is associated with technology from LiveAgent"""
+liveagent_oref,"Functionality""","""is associated with technology from LiveAgent"""
+liveagent_ptid,"Functionality""","""is associated with technology from LiveAgent"""
+atauthority,"Functionality""","is associated with AT Internet which is used to keep the visitor privacy mode activated by the visitor"""
+_ga_mq7767qqqw,"Analytics""","ID used to identify users"""
+amp_mktg_0753e77572,"Analytics""","Registers statistical data on users' behaviour on the website. Used for internal analytics by the website operator."""
+amp_0753e77572,"Analytics""","Registers statistical data on users' behaviour on the website. Used for internal analytics by the website operator."""
+_hjsession_445451,"Functional""","A cookie that holds the current session data. This ensues that subsequent requests within the session window will be attributed to the same Hotjar session."""
+_hjsessionuser_445451,"Functional""","""Hotjar cookie that is set when a user first lands on a page with the Hotjar script. It is used to persist the Hotjar User ID"""
+_gat_ua-4118503-39,"Analytics""","Used to monitor number of Google Analytics server requests when using Google Tag Manager"""
+_ga_t18e1gtpqg,"Analytics""","ID used to identify users"""
+edgebucket,"Marketing""","Used by Reddit to deliver advertising"""
+aka_a2,"Functional""","""Used for Akamai's Advanced Acceleration feature"""
+amcv_48855c6655783a647f000101%40adobeorg,"Marketing""","Adobe Experience Cloud uses a cookie to store a unique visitor ID that is used across Experience Cloud Solutions."""
+dtcookie,"Analytics""","""This cookie is used by RUM API"""
+ajs_anonymous_id,"Analytics""","Used for Analytics and help count how many people visit a certain site by tracking if you have visited before"""
+_ga_b0xheyg9rn,"Analytics""","ID used to identify users"""
+amcv_969430f0543f253d0a4c98c6%40adobeorg,"Marketing""","Adobe Experience Cloud uses a cookie to store a unique visitor ID that is used across Experience Cloud Solutions."""
+s_ecid,"Marketing""","This cookie is set by the customer's domain after the AMCV cookie is set by the client. The purpose of this cookie is to allow persistent ID tracking in the 1st-party state and is used as a reference ID if the AMCV cookie has expired."""
+amcvs_969430f0543f253d0a4c98c6%40adobeorg,"Marketing""","The AMCVS cookie serves as a flag indicating that the session has been initialized. Its value is always 1 and discontinues when the session has ended."""
+_pk_ses.c9513597-70e6-4b84-80c5-36f9dddf8c7c.9f33,"Analytics""","Short lived cookies used to temporarily store data for the visit"""
+_pk_id.c9513597-70e6-4b84-80c5-36f9dddf8c7c.9f33,"Analytics""","Used to store a few details about the user such as the unique visitor ID"""
+ts01dc4fc6,"Functional""","Used for security and anti-fraud reasons"""
+amcv_347ae3bc558c64417f000101%40adobeorg,"Marketing""","Adobe Experience Cloud uses a cookie to store a unique visitor ID that is used across Experience Cloud Solutions."""
+amcvs_347ae3bc558c64417f000101%40adobeorg,"Marketing""","The AMCVS cookie serves as a flag indicating that the session has been initialized. Its value is always 1 and discontinues when the session has ended."""
+_ga_89ey6snb5y,"Analytics""","ID used to identify users"""
+amcv_b2aaf3c959275c660a495e7b%40adobeorg,"Marketing""","Adobe Experience Cloud uses a cookie to store a unique visitor ID that is used across Experience Cloud Solutions."""
+locale,"Marketing""","This cookie contains the display locale of the last logged in user on this browser. This cookie appears to only be set after the user logs out. The locale cookie has a lifetime of one week."""
+amcvs_b2aaf3c959275c660a495e7b%40adobeorg,"Marketing""","The AMCVS cookie serves as a flag indicating that the session has been initialized. Its value is always 1 and discontinues when the session has ended."""
+t,"Functional""","Used to avoid duplicate access checks."""
+_gat_ua-89056735-1,"Analytics""","Used to monitor number of Google Analytics server requests when using Google Tag Manager"""
+_ga_jcew5spnpe,"Analytics""","ID used to identify users"""
+_gat_gtag_ua_52447_14,"Analytics""","Used to monitor number of Google Analytics server requests when using Google Tag Manager"""
+_ga_zk2e2b4fhh,"Analytics""","ID used to identify users"""
+consentuuid,"Functional""","This cookie is used as a unique identification for the users who has accepted the cookie consent box."""
+.aspxanonymous,"Functional""","Created by ASP.Net. This cookie configures anonymous identification for application authorization. This is required to identify entities that are not authenticated when authorization is required."""
+asp.net_sessionid,"Functional""","ASP.Net_SessionId is a cookie which is used to identify the users session on the server. The session being an area on the server which can be used to store session state in between http requests."""
+_gat_unifi,"Analytics""","Used to monitor number of Google Analytics server requests when using Google Tag Manager"""
+_ga_fvkcj3f84j,"Analytics""","ID used to identify users"""
+_hjsession_2411088,"Functional""","A cookie that holds the current session data. This ensues that subsequent requests within the session window will be attributed to the same Hotjar session."""
+_hjsessionuser_2411088,"Functional""","""Hotjar cookie that is set when a user first lands on a page with the Hotjar script. It is used to persist the Hotjar User ID"""
+_ga_v01x6f3x1p,"Analytics""","ID used to identify users"""
+_ga_m7bz346gn7,"Analytics""","ID used to identify users"""
+_ga_tn8xytfey2,"Analytics""","ID used to identify users"""
+_gat_gtag_ua_213608374_11,"Analytics""","Used to monitor number of Google Analytics server requests when using Google Tag Manager"""
+__gpi,"Marketing""","Collects information on user behaviour on multiple websites. This information is used in order to optimize the relevance of advertisement on the website."""
+__gads,"Marketing""","""This cookie is used by Google for a variety of purposes (e.g."""
+__eoi,"Security""","""This cookie is used for security authenticate users"""
+_chartbeat2,"Analytics""","Cookie is used to register if a person has visited the domain before (to calculate new vs returning users)."""
+ts,"Functional""","This cookie is generally provided by PayPal and supports payment services on the website"""
+x-pp-s,"Functional""","This cookie is provided by PayPal and supports payment services in the website."""
+nsid,"Functional""","Cookie for fraud detection. When making a payment via PayPal these cookies are issued – PayPal session/security"""
+ts_c,"Functional""","This cookie is provided by Paypal. The cookie is used in context with transactions on the website."""
+tsrce,"Functional""","This cookie is generally provided by PayPal and supports payment services on the website."""
+l7_az,"Functional""","This cookie is necessary for the PayPal login-function on the website."""
+enforce_policy,"Functional""","This cookie is provided by Paypal. The cookie is used in context with transactions on the website - The cookie is necessary for secure transactions."""
+_ga_heq0yf2vyl,"Analytics""","ID used to identify users"""
+_vis_opt_test_cookie,"Functional""","This is a temporary session cookie generated to detect if the cookies are enabled on the user browser or not."""
+_vis_opt_s,"Functional""","This cookie detects if you are new or returning to a particular test."""
+_vwo_sn,"Analytics""","""Collects statistics on the visitor's visits to the website"""
+_vwo_ds,"Analytics""","""Collects data on the user's visits to the website"""
+_vwo_uuid,"Functional""","Used to track visitor movements anonymously."""
+_vis_opt_exp_107_combi,"Functional""","This cookie is generated when a goal is created."""
+_vwo_uuid_v2,"Functional""","Used to track visitor movements anonymously."""
+_sp_id.df80,"Analytics""","""Stores user information that is created when a user first visits a site and updated on subsequent visits. It is used to identify users and track the users activity across a domain. This cookie stores a unique identifier for each user"""
+_sp_ses.df80,"Analytics""","Used to identify if the user is in an active session on a site or if this is a new session for a user (i.e. cookie doesn’t exist or has expired)."""
+cid,"Marketing""","Unique value to be able to identify cookies from users (same as uid)"""
+_ga_rkjzvpmge6,"Analytics""","ID used to identify users"""
+cf_clearance,"Functional""","Whether a CAPTCHA or Javascript challenge has been solved."""
+_cfuvid,"Functional""","""The _cfuvid cookie is only set when a site uses this option in a Rate Limiting Rule"""
+_ga_7jy7t788pk,"Analytics""","ID used to identify users"""
+uid,"Marketing""","Contains a unique ID to identify a user"""
+_sp_ses.f5fb,"Analytics""","Used to identify if the user is in an active session on a site or if this is a new session for a user (i.e. cookie doesn’t exist or has expired)."""
+panoramaid,"Marketing""","Registers data on visitors from multiple visits and on multiple websites. This information is used to measure the efficiency of advertisement on websites."""
+_cc_id,"Marketing""","""Collects anonymous statistical data related to the user's website visits"""
+_sp_id.f5fb,"Analytics""","""Stores user information that is created when a user first visits a site and updated on subsequent visits. It is used to identify users and track the users activity across a domain. This cookie stores a unique identifier for each user"""
+dicbo_id,"Marketing""","Collects statistics concerning the visitors' use of the website and its general functionality. This is used to optimize and compile reports on the website for comparison through a third party analysis service."""
+amcvs_7ff852e2556756057f000101%40adobeorg,"Marketing""","The AMCVS cookie serves as a flag indicating that the session has been initialized. Its value is always 1 and discontinues when the session has ended."""
+panoramaid_expiry,"Marketing""","Registers data on visitors from multiple visits and on multiple websites. This information is used to measure the efficiency of advertisement on websites."""
+amcv_7ff852e2556756057f000101%40adobeorg,"Marketing""","Adobe Experience Cloud uses a cookie to store a unique visitor ID that is used across Experience Cloud Solutions."""
+optimizelyenduserid,"Marketing""","Stores a visitor's unique Optimizely identifier. It's a combination of a timestamp and random number. No other information about you or your visitors is stored inside."""
+qsi_historysession,"Analytics""","""Used in lieu of the “Site History” cookie"""
+ki_r,"Analytics""","Shopify analytics."""
+_li_ss,"Marketing""","""Sets a unique ID for the visitor"""
+ki_t,"Analytics""","Shopify analytics."""
+__qca,"Marketing""","""This cookie is set by Quantcast"""
+_ga_dld85vj5qy,"Analytics""","ID used to identify users"""
+bcsessionid,"Marketing""","Unique identifier for the BlueConic profile."""
+_ga_xejkgkmhbk,"Analytics""","ID used to identify users"""
+muc_ads,"Marketing""","""These cookies are placed when you come to our website via X. A cookie from X is also placed on our website"""
+permutive-id,"Functional""","""This ID is the same within a domain (not publisher-specific). The Permutive ID exists in all environments"""
+st_uid,"Marketing""","This cookie is used to store randomly generated unique browser identifier"""
+_ga_q149dfwht7,"Analytics""","ID used to identify users"""
+__cfruid,"Functional""","""Used by the content network"""
+_gat_ua-5686560-5,"Analytics""","Used to monitor number of Google Analytics server requests when using Google Tag Manager"""
+_ga_b3nbhzeje6,"Analytics""","ID used to identify users"""
+fpid,"Analytics""","Registers statistical data on users' behaviour on the website. Used for internal analytics by the website operator."""
+_ga_nsvbrc7s52,"Analytics""","ID used to identify users"""
+cookieconsent,"Functional""","Stores the user's cookie consent state for the current domain"""
+fplc,"Analytics""","""This FPLC cookie is the cross-domain linker cookie hashed from the FPID cookie. It’s not HttpOnly"""
+yandexuid,"Analytics""","Registers data on visitors' website-behaviour. This is used for internal analysis and website optimization."""
+amcv_9e1005a551ed61ca0a490d45%40adobeorg,"Marketing""","Adobe Experience Cloud uses a cookie to store a unique visitor ID that is used across Experience Cloud Solutions."""
+amcvs_9e1005a551ed61ca0a490d45%40adobeorg,"Marketing""","The AMCVS cookie serves as a flag indicating that the session has been initialized. Its value is always 1 and discontinues when the session has ended."""
+__hssc,"Marketing""","This cookie keeps track of sessions."""
+hubspotutk,"Marketing""","This cookie keeps track of a visitor's identity. It is passed to HubSpot on form submission and used when deduplicating contacts."""
+intercom-id-mibinkci,"Analytics""","Anonymous visitor identifier cookie. As people visit your site they get this cookie."""
+__hssrc,"Marketing""","""Whenever HubSpot changes the session cookie"""
+_hjsessionuser_437790,"Functional""","""Hotjar cookie that is set when a user first lands on a page with the Hotjar script. It is used to persist the Hotjar User ID"""
+__hstc,"Marketing""","The main cookie for tracking visitors."""
+intercom-device-id-mibinkci,"Analytics""","""Identifier for each unique device that interacts with the Messenger. It is refreshed on each successful ping"""
+_hjsession_437790,"Functional""","A cookie that holds the current session data. This ensues that subsequent requests within the session window will be attributed to the same Hotjar session."""
+_vis_opt_exp_229_combi,"Functional""","This cookie is generated when a goal is created."""
+__cmpccpausps,"Functional""","Consent information in IAB USP CCPA Format."""
+intercom-session-mibinkci,"Analytics""","""Identifier for each unique browser session. This session cookie is refreshed on each successful logged-in ping"""
+__cmpconsentx108458,"Functional""","Consent String of the IAB CMP Framework (TCF) v2 specific to a single account in our platform."""
+_ga_erhennm7dm,"Analytics""","ID used to identify users"""
+__cmpcccx108458,"Functional""","Consent information in custom consent format"""
+_pin_unauth,"Marketing""","Registers a unique ID that identifies and recognizes the user. Is used for targeted advertising."""
+_scid_r,"Marketing""","""Sets a unique ID for the visitor"""
+_scid,"Marketing""","Used to help identify a visitor."""
+amp_f93443b04c,"Analytics""","Registers statistical data on users' behaviour on the website. Used for internal analytics by the website operator."""
+amp_mktg_f93443b04c,"Analytics""","Registers statistical data on users' behaviour on the website. Used for internal analytics by the website operator."""
+otz,"Marketing""","Aggregate analysis of website visitors"""
+__host-gaps,"Functional""","Used to sign in with Google account."""
+_dc_gtm_ua-18073-34,"Analytics""","Used to monitor number of Google Analytics server requestss"""
+__attentive_ss_referrer,"Performance""","__attentive_ss_referrer is used to track where the user came from and is primarily used for sign-up unit display logic and for configurable fatigue rules based on browser referrer"""
+dw_dnt,"Strictly Necessary""","This cookies checks whether a browser accepts first party cookies. This cookie is also used to determine when a session should not be tracked."""
+__cq_dnt,"Functionality""","""Indicates that the browser has opted out of CC Einstein tracking for this site. Commerce Cloud sets it with each page response based on the value of the corresponding session attribute TrackingAllowed. The value of this cookie always matches that of the Storefront dw_dnt* cookie.  source code group ID (encoded)	 currency mnemonic	 and time zone."""
+user_status,"userXXXXXXXXXXXXXXXXX""","Used to track usage of the embedded video player."""
+dwanonymous_9907d2546eceb63cb02962956d9dce38,"dwanonymous_xxxxxxxx""","This is a pattern type cookie associated with the Demandware eCommerce platform. Its stated purpose is anonymised user tracking  therefore it is presumed involved in targeting or personalisation in some way"""
+dwsid,"Strictly Necessary""","System session management cookie associated with the Demandware eCommerce platform."""
+sid,"Strictly Necessary""","This is a very common cookie name but where it is found as a session cookie it is likely to be used as for session state management."""
+og_session_id,"Strictly Necessary""","The og_session_id cookie is used to uniquely identify the customer for subscription cart tracking and to track a hidden subscription cart as the customer moves through the checkout process. It is also required to enable A/B testing."""
+acer_cdn_uc,"ucxxxxxxxxxx""","Try entering a different search term or return to the homepage."""
+bm_sz,"Performance""","This cookie is used by Akamai to optimize site performance and security. It is typically associated with the delivery of web content and services."""
+sa-user-id-v3,"Targeting/Advertising""","This cookie is likely used to track user identity by assigning a unique user ID when the user engages with the website. It is commonly used for analytics and personalization of content."""
+sa-user-id-v2,"Performance""","This cookie is used to identify the user's session on the website and is often associated with analytics or personalization."""
+sa-user-id,"Functionality""","This cookie is typically associated with SnackTools  which is a suite of web applications for creating and sharing multimedia content. It is used to identify a user across sessions and track user activities."""
+__pdst,"Performance""","Podsights cookie used to track Hubspots podcast advertising results."""
+utag_main,"Strictly Necessary""","is associated with the Tealium data platform and is used to enforce consent preferences across 3rd party tags"""
+optoutmulti,"Functionality""","OPTOUTMULTI is used to save the privacy settings for a visitor for the next time they visit your site"""
+kampyleusersession,"Functionality""","This cookie is commonly associated with customer survey and feedback functionality on a website  using software from Kampyle Ltd"""
+kampyle_userid,"Functionality""","This cookie is commonly associated with customer survey and feedback functionality on a website  using software from Kampyle Ltd."""
+kampyleusersessionscount,"Functionality""","This cookie is commonly associated with customer survey and feedback functionality on a website  using software from Kampyle Ltd"""
+kampylesessionpagecounter,"Functionality""","This cookie is commonly associated with customer survey and feedback functionality on a website  using software from Kampyle Ltd"""
+_sctr,"Targeting/Advertising""","is associated with Snap which is used to determine whether a third party tag will be called in Snap Ads Pixel and stores information about the categories of cookies the site uses and whether visitors have given or withdrawn consent for the use of each category"""
+__exponea_time2__,"Functionality""","is used by Bloomreach to provide timezone functionality"""
+__exponea_etc__,"Targeting/Advertising""","is associated with Bloomreach Engagement which is used to store a unique user ID for marketing purposes and to determine which products the visitor has viewed to promote related products and optimize ad-efficiency"""
+quantummetricuserid,"Performance""","is associated with Quantum Metric which is used to understand and improve how you use our site"""
+__idcontext,"Performance""","Used for device identification"""
+tltuid,"Performance""","is associated with the Tealeaf Customer Experience product from IBM"""
+brand,"Functionality""","is used to remember which type of flour was used in the cookie-making process to avoid making two whole batches and to differentiate the resulting cookies during the evaluation"""
+user_profile_id,"userXXXXXXXXXXXXXXXXX""","Used to track usage of the embedded video player."""
+_br_uid_2,"Functionality""","This cookie is used to enable user to share pages through third party social networking websites."""
+quantummetricsessionid,"Performance""","is associated with Quantum Metric which is used to understand and improve how users use the site"""
+cjconsent,"Strictly Necessary""","is used to store the user's cookie consent state for the current domain"""
+kampyleuserpercentile,"Performance""","""is associated with Medallia which is used to collect statistics on the user's visits to the website  such as the number of visits	 average time spent on the website and what pages have been read"""
+be_cla3,"Performance""","""BE_CLA3 is associated with BrightEdge which is used to enable data aggregation  analysis	 and report creation to assess marketing effectiveness and website performance"""
+sessionid,"Strictly Necessary""","This is a very generic cookie name that may have different purposes on different sites  but generally it will be some kind of anonymous session identifier.  but generally it will be some kind of anonymous session identifier."""
+aetadnuc,"ucxxxxxxxxxx""","Try entering a different search term or return to the homepage."""
+reese84,"Targeting/Advertising""","This cookie is typically associated with the ad tech company MediaMath. It is used for tracking user actions and targeting advertising based on user behavior."""
+onsite_session_tab_666613027360,"ONSITE_SESSION_TAB_XXXXXXXXXX""","Try entering a different search term or return to the homepage."""
+onsite_session_tab_631854915289,"ONSITE_SESSION_TAB_XXXXXXXXXX""","Try entering a different search term or return to the homepage."""
+driftt_aid,"Targeting/Advertising""","This is the anonymous identifier token. It is used to tie the visitor on your website with the profile within the Drift system. This allows Drift to remember the information that this site visitor has provided through the chat on subsequent site visits."""
+_an_uid,"Performance""","This cookie is likely used for analytics purposes to track user behavior and site usage  which may include unique user identification for tracking."""
+_gd_session,"_gd#############""","This cookie contains no identifying information and is used for diagnostic purposes by Impact Radius"""
+_gd_visitor,"_gd#############""","This cookie contains no identifying information and is used for diagnostic purposes by Impact Radius  a service we use to track signup commissions for our affiliate program. We have categorized it under Functionality because it is necessary for the operation of our affiliate program."""
+seerid,"Targeting/Advertising""","This cookie is typically associated with Quantcast  a digital advertising company. It is used for collecting anonymized data to analyze log data from different websites to create reports that enables the website owners and advertisers provide ads for the appropriate audience segments."""
+seerses,"Targeting/Advertising""","is associated with Lytics which is used for identifying user"""
+drift_aid,"Targeting/Advertising""","This is the anonymous identifier token. It is used to tie the visitor on your website with the profile within the Drift system. This allows Drift to remember the information that this site visitor has provided through the chat on subsequent site visits."""
+coveo_visitorid,"Performance""","is associated with Coveo which is used to store a unique user ID for marketing purposes and to track the number of distinct users who submitted a query or clicked an item  counting them only once even if they did the same query or clicked the same item over the course of many visits"""
+s_ips,"Performance""","This cookie is associated with Adobe Analytics. The cookie is used for measuring a visitor’s scroll activity to see how much of a page they view before moving on to another page."""
+s_pltp,"Performance""","This cookie is typically associated with Adobe Analytics (formerly SiteCatalyst). It is used to identify the previous link clicked within the site  which helps in analyzing site usage patterns."""
+drift_campaign_refresh,"Targeting/Advertising""","This is the session identifier token. It is used to tie the visitor on your website with a current website session within the Drift system. This is enables session-specific features  such as popping up a messaging only once during a 30 minute session as to prevent a disruptive experience."""
+language,"Functionality""","""There are many different types of cookies associated with this name  and a more detailed look at how it is used on a particular website is generally recommended. However	 in most cases it will likely be used to store language preferences"""
+s_plt,"Performance""","This cookie is used to measure the time taken for pages to load  allowing website owners to identify slow loading pages and improve user experience."""
+s_nr30,"Performance""","Adobe Analytics site tracking."""
+gpv_url,"Performance""","This cookie gpv_url is associated with Adobe Analytics which is used to store the quantity of page URLs a user views when visiting a website and identifies the URL of the previous page."""
+s_ivc,"Performance""","This cookie is associated with Adobe Analytics site tracking."""
+s_vnc365,"Performance""","This cookie is associated with Adobe Analytics and is used to track website behaviour."""
+gpv_page,"Performance""","is used to store the value of the previous page visited by the user for analytics purposes"""
+_dd_s,"Performance""","""Datadog Cookie used to group all events generated from a unique user session across multiple pages. It contains the current session ID  whether the session is excluded due to sampling	 and the expiration date of the session. The cookie is extended for an extra 15 minutes every time the user interacts with the website"""
+s_sess,"Performance""","Adobe Site Catalyst cookie."""
+s_pers,"Performance""","Adobe Site Catalyst cookie."""
+pmuser_country,"Functionality""","This cookie saves user's country and is used to prefill form inputs."""
+pxcts,"Strictly Necessary""","""is used to maintain a cross tab session  detect fraud and bot activity	 and distinguish between humans and bots  detect fraud and bot activity	 and distinguish between humans and bots"""
+spotim_visitid,"Functionality""","is used to identify a visitor's session"""
+_awl,"Targeting/Advertising""","This cookie _awl is used to collect data on user preferences and behavior on the website to make content and advertisements more relevant to the user."""
+_pxvid,"Strictly Necessary""","This cookie is related to the security services provided by PerimeterX to protect websites from malicious activity."""
+_px2,"Strictly Necessary""","is used to maintain a session with HUMAN"""
+da_intstate,"Performance""","is used to monitor and review user journeys on the site/platform  providing insights on how to improve the on-site experiencem  providing insights on how to improve the on-site experience"""
+da_lid,"Functionality""","da_lid' is used to contain the unique ID of the visitor and to remember choices the user makes  providing enhanced and more personal features  providing enhanced and more personal features"""
+da_sid,"Performance""","""is used to collect information about how people use the website  to ensure the website is meeting user needs	 and to help understand what could be improved"""
+visitorid,"Performance""","is associated with Adobe Analytics which is used to identify visitors on your site with a custom unique identifier"""
+cto_bundle,"Targeting/Advertising""","This cookie is associated with Criteo's advertising platform. It tracks user activity and ad engagement to provide targeted advertising."""
+eupubconsent-v2,"Targeting/Advertising""","is used to store IAB TCF v2 preferences and consent strings for vendors registered with the IAB framework  and is also associated with remarketing purposes"""
+lpvid,"Functionality""","is associated with software from LIvePerson  which enables website owners to add online chat funcitonality to communicate directly with visitors"""
+context,"Functionality""","This cookie is used to store and/or access device information and process data such as browsing behavior or unique IDs on this site. It is also used to remember the previously visited landing page to alter node templates based on that information."""
+_pxhd,"Strictly Necessary""","""is used to provide protection against hackers  for server-side detection and distinguishing whether it is a real user or malicious bot	 and to enhance customer data"""
+_li_dcdm_c,"Targeting/Advertising""","This cookie is used by LinkedIn for targeting and advertising purposes  to deliver relevant ads to the user and to track the effectiveness of ad campaigns."""
+_lc2_fpi,"Targeting/Advertising""","""is associated with LiveIntent which is used to enable targeted advertising by storing a random  unique	 device identifier as a 1st party cookie"""
+csrf-token,"Strictly Necessary""","is used to prevent cross-site request forgery (CSRF) attacks by ensuring that each request sent to the server is from the authenticated user"""
+lpsid-15746684,"LPSID-nnnnnnnn""","This is a pattern type cookie associated with software from LivePerson which enables online chat functionality with site visitors. This cookie appears to be a unique session identifier."""
+rmstore,"Targeting/Advertising""","The rmStore cookie is associated with Rakuten Advertising and is used to hold configuration for conversion code and store affiliate and search click IDs on the client domain."""
+dwanonymous_4b223e5821b70d248aeba587a188686c,"dwanonymous_xxxxxxxx""","This is a pattern type cookie associated with the Demandware eCommerce platform. Its stated purpose is anonymised user tracking  therefore it is presumed involved in targeting or personalisation in some way"""
+asos-ts121,"Strictly Necessary""","Browser session key  used to enable unique sessions to be stored in access tokens for security purposes."""
+currency,"Functionality""","This cookie is used to remember a user's choice of currency on an e-commerce website."""
+asos,"Targeting/Advertising""","Stores a variety of information about the customer"""
+geocountry,"Targeting/Advertising""","Stores the geographical location of browsers and targets ads.  used for multiple purposes"""
+s_vnum,"Performance""","Adobe Site catalyst cookie"""
+ipe_s,"Functionality""","This cookie is associated with Iperception 'intent recognition' software which enables customer experience to be altered dynamically based on perceived intent."""
+s_invisit,"Performance""","Adobe Site Catalyst cookie"""
+s_dfa,"Performance""","is associated with the analytics service provided by Adobe's Site Catalyst product suite  track number of visits by a unique visitor"""
+bm_mi,"Strictly Necessary""","This cookie is associated with Akamai. It is used to analyse traffic to determine if it is automated traffic generated by bots or a human user."""
+lux_uid,"Performance""","This cookie is used by the website analytics service 'LUX' provided by SpeedCurve to track user interactions and performance metrics on the website."""
+fs_uid,"Performance""","This cookie is associated with FullStory"""
+_aeaid,"Strictly Necessary""","is associated with AudioEye which is used to make content more accessible and usable for a wider audience by functioning of the accessibility feature"""
+s_nr,"Performance""","Adobe Site Catalyst cookie"""
+__trpar,"__t-xxxxxxxxxxxx""","Try entering a different search term or return to the homepage."""
+__trsrc,"__t-xxxxxxxxxxxx""","Try entering a different search term or return to the homepage."""
+s_tbm,"Performance""","is associated with Adobe Analytics which is used to identify the marketing channel through which the user accessed the page"""
+site24x7rumid,"Performance""","is used to identify unique users and sessions for site performance monitoring"""
+country,"Strictly Necessary""","The 'country' cookie is used to provide functions across webpages"""
+addshoppers.com,"Functionality""","This cookie is associated with the addshoppers service which is used to allow users the possibility of sharing content on their social networks."""
+shopper-pref,"Functionality""","is used to save the visitor's currency preferences and user preferences"""
+store_visitor,"Functionality""","is used to set an ID for the user"""
+shop_session_token,"Functionality""","This cookie is used by online shops to record whether users have placed items in their shopping cart."""
+soundestid,"Functionality""","is used by Omnisend to identify an anonymous contact and to identify which form was filled"""
+omnisendsessionid,"Performance""","is associated with Omnisend which is used to identify a session of an anonymous contact or a contact"""
+fornax_anonymousid,"Performance""","The 'fornax_anonymousId' cookie is provided by BigCommerce for analytical purposes concerning Site visitors and registers statistical data on users' behavior on the website. It is used for internal analytics by the website operator."""
+afuserid,"Performance""","is used by AppsFlyer to identify a user in the context of app launch and navigation events"""
+countrycode,"Functionality""","This cookie is used to determine the preferred country setting selected by the visitor"""
+cart,"Strictly Necessary""","This cookie is generally provided by Shopify and is used in connection with a shopping cart."""
+secure_customer_sig,"Strictly Necessary""","This cookie is generally provided by Shopify and is used in connection with a customer login."""
+usi_coupon_user,"userXXXXXXXXXXXXXXXXX""","Used to track usage of the embedded video player."""
+tid,"Targeting/Advertising""","is associated with Insight Express which is used for Market Research"""
+geo,"Functionality""","This cookie named 'geo' is used to identify where in the world users are accessing the site from"""
+cto_bidid,"Targeting/Advertising""","This cookie is typically written to the browser upon the first visit to the site from that web browser. If the cookie has been deleted by the browser operator"""
+pbjs_li_nonid,"Targeting/Advertising""","is associated with user ID storage which is used to store the resolved user ID"""
+pbjs-unifiedid,"Targeting/Advertising""","This cookie is set by PubMatic  and for the correct functioning of the website."""
+_pubcid,"Targeting/Advertising""","This cookie is used to track and identify a browser's unique session and is often used for purposes of targeted advertising."""
+_lr_retry_request,"Performance""","is associated with pub"""
+_lr_geo_location,"Functionality""","The _lr_geo_location cookie is used to determine the location (country) and state (within a country) of a call."""
+lotame_domain_check,"Targeting/Advertising""","is associated with Lotame which is used to identify the visitor upon re-entry to the website"""
+_lr_env_src_ats,"Targeting/Advertising""","is associated with LiveRamp and pub"""
+routeid,"Strictly Necessary""","This cookie is typically used for load balancing to ensure that visitor page requests are routed to the same server in any browsing session."""
+nol_fpid,"Performance""","is associated with The Nielsen Company which is used to measure viewer-rating on video-content on the site"""
+_cb_svref,"Functionality""","This is a Microsoft MSN 1st party cookie used to measure the use of the website for internal analytics."""
+_t_tests,"Functionality""","is associated with Chartbeat which is used primarily to ensure that a visitor to your website sees a consistent headline across multiple pageviews when a headline testing system is implemented"""
+_cb,"Functionality""","This is a Microsoft MSN 1st party cookie used to measure the use of the website for internal analytics."""
+_nr,"Functionality""","is associated with Adobe Inc  an advertising technology company. It stores a unique ID to identify a returning user's device which then is used for targeted advertising."""
+_dcf,"Not Found""","is used to collect aggregated and anonymous data on site usage to improve website performance"""
+swid,"Not Found""","is used to authenticate users in private fantasy sports leagues and remember user preferences and settings for site navigation"""
+region,"Not Found""","This 'region' cookie is used to remember the user's selected region to provide region-specific content and services on the website."""
+_bts,"Targeting/Advertising""","_bts is used as a unique identifier for marketing purposes"""
+__attentive_id,"Performance""","is associated with Attentive which is used to attribute onsite events to the visitor and to govern display rules for Attentive sign-up units"""
+_bti,"Targeting/Advertising""",""""
+cquid,"Performance""","is associated with Predictive Intelligence activity tracking software used on sites built on the Demandware ecommerce platform"""
+__cq_seg,"Functionality""","is associated with B2C Commerce which is used to contain inferred shopping propensity attributes and other segment attributes used in predictive sort"""
+__cq_uuid,"Performance""",nan
+dwac_5fb6b469fc6e3ff4afbe1d5d4b,"Stores the following data for analytics purposes: Session ID� report suite name shopper’s customer ID""",nan
+__attentive_pv,Performance,is used to track the number of page views in a visitor's session and is primarily used for sign-up unit display logic and configurable fatigue rules based on page view count
+fccdcf,Functionality,nan
+phpsessid,Strictly Necessary,nan
+fcnec,Targeting/Advertising,is associated with Facebook and Google services which is used to enable social media features on our website such as sharing content on Facebook and is set by YouTube and Google Maps when you view embedded videos or maps on our website
+xsrf-token,Strictly Necessary,nan
+cjuser,userXXXXXXXXXXXXXXXXX,nan
+ts011605d9,Strictly Necessary,nan
+applicationgatewayaffinitycors,Strictly Necessary,nan
+applicationgatewayaffinity,Strictly Necessary,nan
+onetrustwpccpagoogleoptout,Strictly Necessary,is associated with the otCCPAiab
+fpau,Targeting/Advertising,FPAU is associated with Google which is used to collect information about the users and their activity on the website through embedded elements with the purpose of analytics and reporting
+notice_preferences,Strictly Necessary,is used to store the selection a visitor has made on the TrustArc cookie consent management pop-up manage the display of the pop-up and save the chosen settings
+amp_7c0056fb78,amp_,nan
+amp_mktg_7c0056fb78,amp_,nan
+request_id,request_xxxxxxxxxxxxxxxxx,nan
+_cs_mk,_cs_nnnnnnnnnnnnn,nan
+affinity,Strictly Necessary,nan
+s_ppn,Performance,is associated with Adobe/Omniture which is used to record the last link clicked on by the user percentage of pages viewed on the previous page and other browser plugin information
+consentmgr,Strictly Necessary,nan
+route,Performance,nan
+sessionkey,Strictly Necessary,nan
+dwac_9ee438189766351c6e7b0ff2b6,dwac_XXXXX,nan
+abtastysession,Performance,nan
+abtasty,Performance,nan
+dwanonymous_efe02c3d69a8c3d3f15df3b9a05e644e,dwanonymous_xxxxxxxx,nan
+atgrecsessionid,Functionality,nan
+xdvisitorid,Performance,is associated with Adobe Analytics which is used for web analytics
+atgrecvisitorid,Functionality,is associated with Oracle which is used to recognize a visitor across separate visits to a website and ensure account functionality works correctly
+__utmzz,Performance,nan
+smtrrmkr,Targeting/Advertising,is associated with Dometic which is used for performance marketing purposes
+_td,Functionality,nan
+tltsid,Performance,is associated with the Tealeaf Customer Experience product from IBM
+sc_analytics_global_cookie,Performance,is associated with the Sitecore Content Management System as is used for web analytics to identify repeat visits by unique users
+arraffinity,Strictly Necessary,nan
+arraffinitysamesite,Strictly Necessary,nan
+smct_session,Functionality,nan
+smc_not,Targeting/Advertising,is associated with Smarter Click advertising cookies which are used for user tracking and ad targeting purposes
+smc_sesn,Targeting/Advertising,is used to monitor website visitor behaviour
+smc_tpv,Performance,smc_tpv is used to monitor website visitor behaviour
+smc_refresh,Strictly Necessary,nan
+smc_tag,Targeting/Advertising,is associated with Smarter Click and Intent
+smc_uid,Targeting/Advertising,is used to monitor website visitor behaviour
+smc_spv,Targeting/Advertising,is associated with Smarter Click which is used for user tracking and ad targeting purposes
+fortertoken,Strictly Necessary,nan
+ftr_ncd,Strictly Necessary,is associated with Forter which is used to make sure data is not sent more than once per predefined timeframe
+globale_data,Strictly Necessary,is associated with GlobalE which is used to hold the browsing information of the user to support localized currency and payment options on the site
+dwanonymous_29c8bd709bce117811b14d53deb17581,dwanonymous_xxxxxxxx,nan
+dwac_bct8giaage38yaaac663bfotdo,dwac_XXXXX,nan
+utag_main__pn,Strictly Necessary,nan
+utag_main__st,Strictly Necessary,nan
+utag_main_ses_id,Strictly Necessary,nan
+utag_main__ss,Strictly Necessary,nan
+access_token,Strictly Necessary,nan
+utag_main__se,Strictly Necessary,nan
+utag_main__sn,Strictly Necessary,nan
+adobeujs-optin,Strictly Necessary,is associated with Adobe Inc
+__td_signed,__t-xxxxxxxxxxxx,nan
+s_lastvisit,Strictly Necessary,is associated with Adobe Tag Manager which is used for the integration of Adobe Dynamic Tag Manager
+ir_pi,Targeting/Advertising,is associated with Impact Radius which is used for affiliate tracking and storing a unique UUID key to help identify a customer later
+__rutmb,Functionality,is used to track the session of a user with a value that is a domain hash
+ir_gbd,Targeting/Advertising,nan
+__ruid,Functionality,is associated with Sitecore Discover which is used to track the user anonymously and enable the site to show relevant and personalized products
+samesite,Strictly Necessary,nan
+_mibhv,Targeting/Advertising,nan
+adrum_bt,Performance,nan
+adrum_bt1,Performance,nan
+asessionid,Strictly Necessary,nan
+.epiform_bid,Functionality,is used to distinguish the browser that the visitor is using and to identify the visitor when reentering the website
+.aspnetcore.session,Strictly Necessary,nan
+defaultlanguage,Functionality,nan
+.aspnetcore.antiforgery.9ttsrw0hzos,Strictly Necessary,nan
+.epiform_visitoridentifier,Functionality,nan
+_personiduser,userXXXXXXXXXXXXXXXXX,nan
+cc,Strictly Necessary,is used to store the user's consent for cookies on the website
+session_entry_url,session_xxxxxxxxxxxxxxxxxxxxxxxxx,nan
+session_entry_page_name,session_xxxxxxxxxxxxxxxxxxxxxxxxx,nan
+cookie-notification,Targeting/Advertising,nan
+anonymous-consents,Targeting/Advertising,nan
+ts01a40e5a,Strictly Necessary,nan
+rxvisitor,Functionality,nan
+dtsa,Performance,nan
+_hp2_ses_props.2573639223,_hp2_ses_props.##########,nan
+_hp2_id.2573639223,_hp2_id.##########,nan
+__adblocker,Strictly Necessary,is used to determine if the visitor has any adblocker software in their browser – this information can be used to make website content inaccessible to visitors if the website is financed with third-party advertisement
+cx_g,Targeting/Advertising,cX_G is used by cxense to store a unique user ID for marketing purposes
+cx_p,Targeting/Advertising,nan
+s_depth,Performance,nan
+sitevisitscookie,Strictly Necessary,nan
+dmid,Functionality,'dmid' is used to identify a unique site visitor over multiple site visits for personalization purposes
+opvc,Strictly Necessary,nan
+gclb,Strictly Necessary,nan
+bvbrandid,Performance,nan
+bvbrandsid,Performance,nan
+last_visit_bc,Targeting/Advertising,is used to track the last visit of a user for targeting purposes
+gpv_pn,Performance,nan
+_cls_s,Performance,is associated with Glassbox which is used to help understand how users interact with the website
+_cls_v,Performance,is associated with Glassbox which is used to assign the visitor a unique anonymous ID and understand how users interact with our websites
+s_getnewrepeat,Performance,nan
+dwac_ddcb22018c454a1247eeba52a2,dwac_XXXXX,nan
+dwanonymous_0e12ec9a6a9932971a094fc91c1fbbba,dwanonymous_xxxxxxxx,nan
+mt.v,Performance,nan
+_sfid_0b1e,_sfid_xxxx,nan
+accesstoken,Strictly Necessary,nan
+s_inv,Performance,nan
+s_tslv,Performance,nan
+ts01cc593e,Strictly Necessary,nan
+ts01de35ba,Strictly Necessary,nan
+s_nr365,Performance,s_nr365 is associated with Adobe Analytics which is used to track user engagement by storing the time of the user's last visit to a website and to track time since last visit to the website for analytics purposes
+dwanonymous_a6b427bd6bbb1645b73b70f60bdb3dac,dwanonymous_xxxxxxxx,nan
+dwac_35fbf77308ea7374f2cc614700,dwac_XXXXX,nan
+amp_token,amp_,nan
+user-country-region,userXXXXXXXXXXXXXXXXX,nan
+user-continent,userXXXXXXXXXXXXXXXXX,nan
+_sfid_e0f6,_sfid_xxxx,nan
+refresh_token,Strictly Necessary,nan
+useremailsubsciption,userXXXXXXXXXXXXXXXXX,nan
+session_id,session_xxxxxxxxxxxxxxxxxxxxxxxxx,nan
+tglr_ref,Performance,is used to identify the source from which a user came to the website during a session
+tglr_tenant_id,Performance,is used for analytics over a period of 2 years
+tglr_sess_count,Performance,nan
+tglr_req,Performance,is used for analytics during a session
+tglr_sess_id,Performance,is used for analytics session
+tglr_anon_id,Performance,is used for analytics over a period of 2 years
+_vwo_uuid_481,_vwo_uuid_XXX,nan
+timezone,Functionality,nan
+s_pvs,Performance,is associated with Adobe Analytics which is used to store a page viewed counter
+s_lv_s,Performance,nan
+datadome,Strictly Necessary,nan
+utag_main_vapi_domain,utag_main_vapi,nan
+awsalbapp-3,awxxxx,nan
+awsalbapp-0,awxxxx,nan
+utag_main_v_id,Strictly Necessary,nan
+awsalbapp-2,awxxxx,nan
+awsalbapp-1,awxxxx,nan
+nvweb_a,Functionality,nan
+_hly_vid,Performance,nan
+_hly_sid,Performance,nan
+s_dslv_s,Performance,is associated with Adobe Analytics which is used to collect anonymous information about website use and returns the days since last visit by reporting the readable Timestamp value of the last access
+s_dslv,Performance,nan

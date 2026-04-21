@@ -1,0 +1,22 @@
+{
+    "paths": {
+      "input_files": [
+        "input_csv/collect_56_websites.csv"
+      ],
+      "output_files": {
+        "banner_present": "result/collect_56_websites_output.csv",
+        "banner_not_present": "result/collect_56_websites_output.csv"
+      }
+    },
+    "chrome": {
+      "user_data_dir": "./chrome-user-data/",
+      "executable_path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    },
+    "profiles": [
+      { "name": "Profile 11", "directory": "Profile 11", "csv_field": "initial_cookies" }
+    ],
+    "collection": {
+      "timeout": 45000,
+      "wait_after_load": 10000
+    }
+}

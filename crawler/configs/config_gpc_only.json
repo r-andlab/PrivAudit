@@ -1,0 +1,19 @@
+{
+    "paths": {
+      "input_files": [
+        "../input_csv/cookies_banner_present.csv",
+        "../input_csv/cookies_banner_not_present.csv"
+      ],
+      "output_files": {
+        "banner_present": "result/cookies_banner_present_gpc.csv",
+        "banner_not_present": "result/cookies_banner_not_present_gpc.csv"
+      }
+    },
+    "chrome": {
+      "user_data_dir": "./chrome-user-data/",
+      "executable_path": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    },
+    "profiles": [
+      { "name": "Profile 5", "directory": "Profile 5", "csv_field": "gpc_enabled" }
+    ]
+}

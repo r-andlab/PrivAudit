@@ -1,0 +1,22 @@
+{
+  "name": "privaudit-crawler",
+  "version": "1.0.0",
+  "description": "Browser-based cookie measurement crawler for PrivAudit",
+  "main": "scripts/cookie_profile_test.js",
+  "scripts": {
+    "crawl": "node scripts/cookie_profile_test.js --config configs/config.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "csv-parser": "^3.2.0",
+    "csv-stringify": "^6.5.2",
+    "csv-writer": "^1.6.0",
+    "csvtojson": "^2.0.10",
+    "fast-csv": "^5.0.2",
+    "json2csv": "^6.0.0-alpha.2",
+    "loglevel": "^1.9.2",
+    "puppeteer": "^24.2.1"
+  }
+}

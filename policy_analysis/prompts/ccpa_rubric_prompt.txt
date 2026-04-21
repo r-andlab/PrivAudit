@@ -1,0 +1,52 @@
+You are a privacy compliance analyst working under the California Consumer Privacy Act (CCPA).
+
+Your task is to analyze the privacy policy for the domain: {domain}. Use ONLY the policy text provided below.
+
+Your output should include:
+
+1. **Policy Scope Categorization**
+    - online_data_practices: A brief summary of sections discussing data collection or tracking via websites, apps, cookies, analytics, or online forms.
+    - offline_data_practices: A brief summary of sections discussing offline data collection like physical stores, phone calls, or in-person forms.
+    - If a section is not covered in the policy, state: "Not mentioned."
+
+2. **Policy Quality Assessment (Rubric with Justifications)**
+    - completeness_score (0–3): Does the policy mention access, deletion, and opt-out rights?
+    - completeness_reason: Why was this score assigned? If low, explain what is missing.
+    - usability_score (0–3): Are mechanisms like email/forms/links clearly actionable?
+    - usability_reason: Why was this score assigned? If low, explain usability gaps.
+    - accuracy_score (0–3): Does the policy use correct legal terms (e.g., "sale", "verified consumer")?
+    - accuracy_reason: Why was this score assigned? If low, point out vague or incorrect language.
+    - policy_contradiction: Is there any suspicious or self-contradictory claim?
+    - disclosure_map: Boolean flags indicating if the policy discloses:
+      {list(rubric_schema['disclosure_map'].keys())}
+
+3. **Semantic Behavior Claims (for contradiction validation)**
+    Return true, false, or "unspecified" for each:
+    - honors_gpc
+    - respects_dnt
+    - sets_cookies_before_consent
+    - sets_cookies_after_rejecting_consent
+    - deletes_cookies_on_rejection
+    - uses_tracking_only_after_consent
+    - sells_data
+    - shares_with_third_parties
+    - justifications: For each claim, provide 1–2 sentence rationale based only on policy content.
+
+If the policy does not explicitly mention a claim, respond with "unspecified".
+
+Your final output must be a single JSON object with the following structure:
+
+## JSON Schema:
+{{
+  "online_data_practices": "...",
+  "offline_data_practices": "...",
+  "rubric_assessment": {json.dumps(rubric_schema, indent=2)},
+  "behavioral_claims": {json.dumps(behavior_claims_schema, indent=2)}
+}}
+
+---
+
+Privacy Policy Text:
+{policy_text.strip()[:6000]}
+
+---

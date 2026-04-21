@@ -1,0 +1,32 @@
+{
+  
+  "https://www.cloudflare.com/": {
+    "acceptSelector": "button#ez-cookie-notification__accept",
+    "denySelector": "button#ez-cookie-notification__decline",
+    "privacyChoiceXPath": "//button[img[@alt='privacy options'] and contains(., 'Your Privacy Choices')]",
+    "requiresReload": true,
+    "rejectSelector": "button.ot-pc-refuse-all-handler"
+  },
+  "https://www.state.gov": {
+    "acceptSelector": "button#ez-cookie-notification__accept",
+    "denySelector": "button#ez-cookie-notification__decline",
+    "privacyChoiceXPath": "//button[img[@alt='privacy options'] and contains(., 'Your Privacy Choices')]",
+    "requiresReload": true
+  },
+  "https://www.amazon.com/": {
+    "acceptSelector": "button#ez-cookie-notification__accept",
+    "denySelector": "button#ez-cookie-notification__decline",
+    "privacyChoiceXPath": "//a[text()='Your Ads Privacy Choices']",
+    "requiresReload": true,
+    "rejectSelector": "#cross-context-behavioral-ads-opt-out",
+    "SaveButtonSelector": "#a-autoid-0"
+  },
+  "https://www.netflix.com/": {
+    "privacyChoiceXPath": "//li[@data-layout='item']//a[text()='Cookie Preferences']",
+    "requiresReload": true,
+    "SaveButtonSelector": "button.save-preference-btn-handler",
+    "ThirdPartySelector": "#ot-group-id-C0003", 
+    "AdvertisingSelector": "#ot-group-id-C0004"
+  
+  }
+}

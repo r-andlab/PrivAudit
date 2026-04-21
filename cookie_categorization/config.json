@@ -1,0 +1,24 @@
+{
+    "file_paths": {
+      "input_files": ["result/cookies_banner_not_present.csv", "result/cookies_banner_not_present.csv"], 
+      "output_directory": "result",
+      "my_cookie_db": "databases/mycookiebase.csv",
+      "open_cookie_db": "databases/open-cookie-database.csv",
+      "cookies_to_fetch": "databases/cookies_to_fetch.json",
+      "cookiepedia_results": "databases/cookiepedia_results.json",
+      "failed_cookies": "databases/failed_cookies.json",
+      "cookie_cutter_db": "databases/cookie_cutter_db.json" ,
+      "process_file": "result/processed_cookies_banner_not_present.csv"
+    },
+    "fetch_settings": {
+      "max_retries": 5,
+      "rate_limit_wait": 600000,
+      "min_delay" : 40,
+      "max_delay" : 70,
+      "concurrent_requests": 2
+    },
+    "puppeteer": {
+      "headless": true
+    },
+    "puppeteer_script": "cookie_categorization/cookiepedia.js"
+  }

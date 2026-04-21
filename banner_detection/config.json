@@ -1,0 +1,161 @@
+{
+  "websites_file": "banner_detection/websites.txt",
+  "results_file": "banner_detection/website_banners.csv",
+  "manual_review_file": "banner_detection/manual_inspection.csv",
+  "chrome_executable": "/path/to/chrome/executable",
+  "chrome_profile": {
+      "user_data_dir": "./chrome-user-data/",
+      "profile_directory": "Profile 7"
+  },
+  "banner_selectors": [
+      "div[id*='cookie']",
+      "div[class*='cmp']",
+      "div[class*='cookie']",
+      "div[id*='consent']",
+      "div[class*='consent']",
+      "div[class*='gdpr']",
+      "div[id*='onetrust-banner-sdk']",  
+      "div[class*='truste']",  
+      "div[id*='trustarc']"
+  ],
+  "cmp_identifiers": {
+      "OneTrust": [
+          "div[id*='onetrust']",
+          "script[src*='onetrust.com']",
+          "iframe[src*='onetrust.com']",
+          "div[id*='onetrust-banner-sdk']"
+      ],
+      "TrustArc": [
+          "div[class*='trustarc']",
+          "iframe[src*='trustarc.com']",
+          "script[src*='trustarc.com']",
+          "div[id*='truste-consent']",
+          "div[class*='truste']",
+          "button[id*='truste-consent-button']"
+      ],
+      "Quantcast": [
+          "div[class*='quantcast']",
+          "iframe[src*='quantcast.com']",
+          "script[src*='quantcast.com']"
+      ],
+      "Sourcepoint": [
+          "div[class*='sourcepoint']",
+          "iframe[src*='sourcepoint.com']",
+          "script[src*='sourcepoint.com']"
+      ],
+      "Cookiebot": [
+          "div[class*='cookiebot']",
+          "script[src*='cookiebot.com']",
+          "iframe[src*='cookiebot.com']"
+      ],
+      "Consent Manager": [
+          "div[class*='consentmanager']",
+          "script[src*='consentmanager.net']",
+          "iframe[src*='consentmanager.net']"
+      ],
+      "Autodesk": [
+          "div[class*='autodesk']",
+          "script[src*='autodesk.com']",
+          "iframe[src*='autodesk.com']"
+      ],
+      "Begadi": [
+          "div[class*='begadi']",
+          "script[src*='begadi.com']",
+          "iframe[src*='begadi.com']"
+      ],
+      "Chandago": [
+          "div[class*='chandago']",
+          "script[src*='chandago.com']",
+          "iframe[src*='chandago.com']"
+      ],
+      "Cookiebar": [
+          "div[class*='cookiebar']",
+          "script[src*='cookiebar.com']",
+          "iframe[src*='cookiebar.com']"
+      ],
+      "CookieControlCivic": [
+          "div[class*='cookiecontrolcivic']",
+          "script[src*='cookiecontrolcivic.com']",
+          "iframe[src*='cookiecontrolcivic.com']"
+      ],
+      "CookieInformation": [
+          "div[class*='cookieinformation']",
+          "script[src*='cookieinformation.com']",
+          "iframe[src*='cookieinformation.com']"
+      ],
+      "CookieLab": [
+          "div[class*='cookielab']",
+          "script[src*='cookielab.com']",
+          "iframe[src*='cookielab.com']"
+      ],
+      "Didomi": [
+          "div[class*='didomi']",
+          "iframe[src*='didomi.io']",
+          "script[src*='didomi.io']"
+      ],
+      "Evidon": [
+          "div[class*='evidon']",
+          "script[src*='evidon.com']",
+          "iframe[src*='evidon.com']"
+      ],
+      "Optanon": [
+          "div[class*='optanon']",
+          "script[src*='optanon.com']",
+          "iframe[src*='optanon.com']"
+      ],
+      "SFR": [
+          "div[class*='sfr']",
+          "script[src*='sfr.com']",
+          "iframe[src*='sfr.com']"
+      ],
+      "ShareThis": [
+          "div[class*='sharethis']",
+          "script[src*='sharethis.com']",
+          "iframe[src*='sharethis.com']"
+      ],
+      "Springer": [
+          "div[class*='springer']",
+          "script[src*='springer.com']",
+          "iframe[src*='springer.com']"
+      ],
+      "Tealium": [
+          "div[class*='tealium']",
+          "script[src*='tealium.com']",
+          "iframe[src*='tealium.com']"
+      ],
+      "The Guardian": [
+          "div[class*='theguardian']",
+          "script[src*='theguardian.com']",
+          "iframe[src*='theguardian.com']"
+      ],
+      "TrustArc Bar": [
+          "div[class*='trustarcbar']",
+          "script[src*='trustarc.com']",
+          "iframe[src*='trustarc.com']"
+      ],
+      "TrustArc Frame": [
+          "iframe[src*='trustarc.com']",
+          "script[src*='trustarc.com']"
+      ],
+      "UMF": [
+          "div[class*='umf.dk']",
+          "script[src*='umf.dk']",
+          "iframe[src*='umf.dk']"
+      ],
+      "UniConsent": [
+          "div[class*='uniconsent']",
+          "script[src*='uniconsent.com']",
+          "iframe[src*='uniconsent.com']"
+      ],
+      "Webedia": [
+          "div[class*='webedia']",
+          "script[src*='webedia.com']",
+          "iframe[src*='webedia.com']"
+      ],
+      "WordPress GDPR": [
+          "div[class*='wordpressgdpr']",
+          "script[src*='wordpressgdpr.com']",
+          "iframe[src*='wordpressgdpr.com']"
+      ]
+  }
+}
