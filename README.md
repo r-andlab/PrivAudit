@@ -31,8 +31,18 @@ PrivAudit/
 ├── analysis/
 │   ├── tables/                  # 6 table generators
 │   └── figures/                 # 3 figure generators
+├── data/
+│   └── data.zip                 # All datasets (see Data section)
 ├── requirements.txt
 └── .gitignore
+```
+
+## Data
+
+All datasets are available in `data/data.zip`. Unzip before running analysis scripts:
+
+```bash
+cd data && unzip data.zip -d ../Analysis
 ```
 
 ## Installation
@@ -49,8 +59,8 @@ pip install -r requirements.txt
 # Node.js (for crawler)
 cd crawler && npm install && cd ..
 
-# Download data (see Data section) and link for analysis scripts
-# cd analysis && ln -s /path/to/data ../Analysis && cd ..
+# Unzip data
+cd data && unzip data.zip -d ../Analysis && cd ..
 ```
 
 **Requirements:** Python >= 3.10, Node.js >= 18.x, Google Chrome.
@@ -87,11 +97,10 @@ jupyter notebook extract_policy_claims.ipynb
 ### Reproducing Tables and Figures
 
 ```bash
-# Setup: copy data files into working directory after downloading
-# cp /path/to/data/data_source.csv .
-
 # Tables
 cd analysis/tables
+cp ../Analysis/data_source.csv .
+cp ../Analysis/ccpa_policy_audit_data_source_mapped.json .
 python3 generate_top_cookie_scripts_table.py
 python3 generate_cookie_setter_table.py
 python3 generate_ccpa_attribution_table_new.py
@@ -105,10 +114,6 @@ python3 plot_split_violin_updated.py
 python3 plot_cdf_comprehensive_banner_ccpa.py
 python3 plot_ecdf_lifespan_ccpa_split.py
 ```
-
-## Data
-
-Datasets are available at: [link to be added]
 
 ## Ethical Considerations
 
