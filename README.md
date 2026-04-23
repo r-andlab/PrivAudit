@@ -25,8 +25,7 @@ PrivAudit/
 ├── cookie_categorization/       # Cookie classification
 │   ├── update_cookies.py        # Multi-source categorization pipeline
 │   ├── cookie_categorization.py # Category standardization
-│   ├── cookiepedia.js           # Cookiepedia API scraper
-│   └── databases/               # Lookup DBs (Open Cookie DB, Cookie Cutter, Cookiepedia)
+│   └── cookiepedia.js           # Cookiepedia API scraper
 ├── banner_detection/            # Consent banner detector
 ├── analysis/
 │   ├── tables/                  # 6 table generators
@@ -114,6 +113,18 @@ python3 plot_split_violin_updated.py
 python3 plot_cdf_comprehensive_banner_ccpa.py
 python3 plot_ecdf_lifespan_ccpa_split.py
 ```
+
+## Cookie Categorization Databases
+
+The cookie categorization pipeline (`cookie_categorization/`) requires external databases that are not included in this repository due to licensing. Download them from their original sources and place them in `cookie_categorization/databases/`:
+
+| Database | Source |
+|---|---|
+| Open Cookie Database | https://github.com/jkwakman/Open-Cookie-Database |
+| Cookiepedia | https://cookiepedia.co.uk |
+| Cookie Cutter DB | https://github.com/nickcounts/CookieCutter |
+| DuckDuckGo Tracker Radar | https://github.com/nickcounts/tracker-radar |
+| Disconnect Tracking Lists | https://github.com/nickcounts/disconnect-tracking-protection |
 
 ## Ethical Considerations
 
