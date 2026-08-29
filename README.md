@@ -1,122 +1,148 @@
-# PrivAudit: A Dual-Lens Auditing Framework for Website Privacy Practices under the CCPA
+# PrivAudit
 
-## Overview
+This repository is the artifact for *PrivAudit: A Dual-Lens Auditing Framework for Website Privacy
+Practices under the CCPA*, appearing at the ACM SIGSAC Conference on Computer and Communications
+Security (CCS '26).
 
-PrivAudit audits website privacy practices under the CCPA by combining two modules:
+## Quickstart
 
-1. **Privacy Policy Analysis** — Scrapes privacy policies and evaluates them against a CCPA-specific rubric using an LLM pipeline.
-2. **Browser-Based Cookie Analysis** — Crawls websites under six privacy configurations and records all cookies, including script-based third-party attribution.
+```bash
+pip install -r requirements.txt
+cd data && unzip data.zip && cd ..
 
-## Repository Structure
-
+python3 analysis/apply_verified_labels.py     # attach CCPA-subjectivity labels to the cookie data
+python3 analysis/regen_table1_policy.py       # reproduces the Table 1 disclosure results
 ```
-PrivAudit/
-├── crawler/                     # Puppeteer-based cookie crawler
-│   ├── scripts/                 # Main crawler + GPC collection scripts
-│   ├── configs/                 # Browser profile configurations
-│   ├── flows/                   # Per-website cookie banner selectors
-│   ├── gpc_toolkit/             # GPC shell runners + data merge scripts
-│   └── package.json
-├── policy_analysis/             # Privacy policy pipeline
-│   ├── scraper/                 # Selenium-based policy text scraper
-│   ├── extract_policy_claims.ipynb  # LLM analysis notebook
-│   ├── calculate_significance.py
-│   └── prompts/                 # CCPA rubric prompt
-├── cookie_categorization/       # Cookie classification
-│   ├── update_cookies.py        # Multi-source categorization pipeline
-│   ├── cookie_categorization.py # Category standardization
-│   └── cookiepedia.js           # Cookiepedia API scraper
-├── banner_detection/            # Consent banner detector
-├── analysis/
-│   ├── tables/                  # 6 table generators
-│   └── figures/                 # 3 figure generators
-├── data/
-│   └── data.zip                 # All datasets (see Data section)
-├── requirements.txt
-└── .gitignore
+
+Each `analysis/regen_*` script prints the submitted and current results side by side. The datasets
+and CCPA-subjectivity labels ship in `data/data.zip`, so the analyses run without re-scraping or
+re-crawling. Scripts resolve `data/` relative to the repository root; set `PRIVAUDIT_ROOT` to point
+them elsewhere.
+
+## Components
+
+- `subjectivity/`: CCPA applicability labeling from revenue and entity-type signals (Section 3.1).
+- `policy_analysis/`: Disclosure lens, privacy-policy scraping, LLM rubric scoring, and validation
+  (Section 3.2). Includes the scraper (`scraper/`), the scoring notebook
+  (`extract_policy_claims.ipynb`), and the CCPA rubric prompt (`prompts/`).
+- `crawler/`: Behavior lens, Puppeteer cookie audit under six privacy configurations
+  (Section 3.3). Includes the crawler (`scripts/`), configuration profiles (`configs/`),
+  consent-banner selectors (`flows/`), and GPC tooling (`gpc_toolkit/`).
+- `cookie_categorization/`: Cookie-functionality classification from multiple public datasets
+  (Section 3.3).
+- `banner_detection/`: Consent-banner detector (Sections 3.3, 4.2).
+- `analysis/`: Statistical analysis and the paper's tables and figures (Sections 3.4, 4.1–4.3).
+- `inner_page/`: Extension, tracking beyond the homepage (Appendix).
+- `tranco_scale/`: Case study, 1,000 popular Tranco websites (Section 4.4).
+- `data/`: Datasets, shipped as `data.zip` (see [Data](#data)).
+
+## Claims
+
+Each of the paper's claims is reproduced by the script below. Run `apply_verified_labels.py` once
+first; every script reads only from `data/`.
+
+- **CCPA-Subject websites provide stronger disclosures** (opt-out 77% vs. 57%, access 85% vs. 68%,
+  delete 86% vs. 69%, GPC 29% vs. 13%; Section 4.1, Table 1),  `analysis/regen_table1_policy.py`.
+- **Cookie-based tracking remains pervasive** (6,392 Targeting cookies, 49% third-party writes;
+  10 scripts set over half of all tracking cookies; Section 4.2, Table 2), 
+  `analysis/regen_table2_full.py`, `analysis/regen_overall_after_exclusion.py`,
+  `analysis/tables/`.
+- **Privacy signals reduce but do not eliminate tracking** (GPC cuts total tracking cookies 55% but
+  third-party tracking only 41%; Section 4.2), `analysis/regen_table_3p_reduction.py`,
+  `analysis/regen_overall_after_exclusion.py`.
+- **Linking disclosures to behavior reveals audit-relevant gaps** (GPC-honoring claims with no
+  tracking reduction; "do-not-sell" sites still setting third-party cookies; Section 4.3), 
+  `analysis/regen_joint_lens.py`, `analysis/compliance_matrix_1798130.py`.
+- **Findings survive multiple-hypothesis correction** (every main policy finding holds under the
+  Holm–Bonferroni correction over all 25 tests; appendix), `analysis/regen_mht_table.py`.
+- **The disclosure gap is not explained by firm size** (Section 4.1), 
+  `analysis/size_control_analysis.py`.
+- **Findings generalize to popular websites** (1,000-site Tranco case study; Section 4.4), 
+  `tranco_scale/analyze_ccpa_frame.py`.
+
+Figures (`analysis/figures/`) regenerate to `figures_output/`:
+
+```bash
+python3 analysis/figures/plot_split_violin_updated.py
+python3 analysis/figures/plot_cdf_comprehensive_banner_ccpa.py
+python3 analysis/figures/plot_ecdf_lifespan_ccpa_split.py
+```
+
+## Requirements
+
+- Python ≥ 3.10
+- Node.js ≥ 18.x (for the crawler)
+- Google Chrome
+
+```bash
+pip install -r requirements.txt
+cd crawler && npm install && cd ..
+```
+
+## Using the framework on your own websites
+
+The Quickstart and Components sections reproduce the paper from the bundled data. To audit a new set
+of websites, run the two lenses on your target list and then join them. The lenses are independent;
+the join at the end produces PrivAudit's audit signals.
+
+### 1. Determine CCPA applicability (optional)
+
+Label each business as CCPA-Subject or CCPA-Not-Subject from revenue and entity-type signals.
+
+```bash
+python3 subjectivity/apollo_reclassify.py
+```
+
+### 2. Disclosure lens — privacy policy audit
+
+List your target site URLs in `policy_analysis/scraper/data/url_list_to_process.txt`, locate and
+extract each policy, then score it against the CCPA rubric. Pass your OpenAI key through the
+environment.
+
+```bash
+python3 policy_analysis/scraper/privacy_policy_url_scraper.py    # find each site's privacy-policy URL
+python3 policy_analysis/scraper/privacy_policy_data_scraper.py   # extract policy text -> scraped_results.json
+
+export OPENAI_API_KEY="your-key"
+jupyter notebook policy_analysis/extract_policy_claims.ipynb     # score disclosures against the rubric
+```
+
+The notebook reads `scraped_results.json` and writes per-site disclosure scores and claims.
+
+### 3. Behavior lens — cookie audit
+
+List your target domains in a CSV with an `Accessible Domain` column and point a config in
+`crawler/configs/` at it via `input_files`. The crawler then visits each site under the six privacy
+configurations (default, GPC, DNT, third-party blocking, uBlock Origin, Consent-O-Matic) and records
+every cookie written.
+
+```bash
+node crawler/scripts/cookie_profile_test.js         # per-cookie CSV, one column per configuration
+python3 cookie_categorization/update_cookies.py     # categorize functionality + attribute third parties
+```
+
+### 4. Join the lenses
+
+Attach the CCPA labels to the cookie data, then compute the disclosure–behavior gaps that are
+PrivAudit's core auditing signal.
+
+```bash
+python3 analysis/apply_verified_labels.py
+python3 analysis/regen_joint_lens.py            # disclosures vs. tracking, by group
+python3 analysis/compliance_matrix_1798130.py   # §1798.130 disclosure-vs-behavior matrix
 ```
 
 ## Data
 
-All datasets are available in `data/data.zip`. Unzip before running analysis scripts:
+`data/data.zip` contains the audited cookie dataset, the extracted policy claims, the
+CCPA-subjectivity labels (`results/`), and the case-study crawl data. The corpus comprises 998
+analyzed websites — 602 CCPA-Subject and 396 CCPA-Not-Subject — plus a separate 1,000-site
+case-study sample.
 
-```bash
-cd data && unzip data.zip -d ../Analysis
-```
+## Cookie categorization databases
 
-## Installation
-
-```bash
-git clone [this-repo-url]
-cd PrivAudit
-
-# Python
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-
-# Node.js (for crawler)
-cd crawler && npm install && cd ..
-
-# Unzip data
-cd data && unzip data.zip -d ../Analysis && cd ..
-```
-
-**Requirements:** Python >= 3.10, Node.js >= 18.x, Google Chrome.
-
-## Usage
-
-### Cookie Crawler
-
-```bash
-cd crawler/scripts
-node cookie_profile_test.js --config ../configs/config.json
-```
-
-Crawls each website under six configurations: Default, Block Third-Party, DNT, GPC, uBlock Origin, and Consent-O-Matic.
-
-### Privacy Policy Scraper
-
-```bash
-cd policy_analysis/scraper
-python3 privacy_policy_url_scraper.py    # Find policy URLs
-python3 privacy_policy_data_scraper.py   # Extract policy text
-```
-
-Produces `scraped_results.json`, which feeds into the LLM notebook.
-
-### LLM Policy Analysis
-
-```bash
-export OPENAI_API_KEY="sk-..."
-cd policy_analysis
-jupyter notebook extract_policy_claims.ipynb
-```
-
-### Reproducing Tables and Figures
-
-```bash
-# Tables
-cd analysis/tables
-cp ../Analysis/data_source.csv .
-cp ../Analysis/ccpa_policy_audit_data_source_mapped.json .
-python3 generate_top_cookie_scripts_table.py
-python3 generate_cookie_setter_table.py
-python3 generate_ccpa_attribution_table_new.py
-python3 generate_cookie_attributes_table.py
-python3 generate_accessible_websites_table.py
-python3 generate_updated_policy_table_final.py
-
-# Figures
-cd ../figures
-python3 plot_split_violin_updated.py
-python3 plot_cdf_comprehensive_banner_ccpa.py
-python3 plot_ecdf_lifespan_ccpa_split.py
-```
-
-## Cookie Categorization Databases
-
-The cookie categorization pipeline (`cookie_categorization/`) requires external databases that are not included in this repository due to licensing. Download them from their original sources and place them in `cookie_categorization/databases/`:
+`cookie_categorization/` needs external databases that are not redistributed here due to licensing.
+Download them and place them in `cookie_categorization/databases/`:
 
 | Database | Source |
 |---|---|
@@ -126,12 +152,18 @@ The cookie categorization pipeline (`cookie_categorization/`) requires external 
 | DuckDuckGo Tracker Radar | https://github.com/nickcounts/tracker-radar |
 | Disconnect Tracking Lists | https://github.com/nickcounts/disconnect-tracking-protection |
 
-## Ethical Considerations
+## Ethics
 
-All crawling was conducted from California. PrivAudit makes fewer than 10 requests per website. No user data was collected beyond publicly available website responses.
+We conducted all crawling and analysis from clients located in California. PrivAudit issues fewer
+than 10 requests per website — to retrieve its privacy policy and to observe the cookies set under
+each privacy configuration — an insignificant fraction of normal web traffic, and the
+configurations are crawled round-robin to avoid load on the websites. We collect no user data other
+than our own, and all analysis, including data fed to the LLMs, relies solely on publicly available
+website responses. The patterns PrivAudit surfaces are auditing signals for manual review, not
+determinations of legal violations.
 
 ## Citation
 
 ```
-[Paper citation will be added upon acceptance]
+[Paper citation will be added upon publication]
 ```

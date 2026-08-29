@@ -1,6 +1,4 @@
-#!/usr/bin/env python3
-"""ECDF of cookie expiry by type, split by CCPA (Subjected vs Non-Subj.)"""
-
+# Usage: python plot_ecdf_lifespan_ccpa_split.py  |  ECDF of cookie lifespan by category, split by CCPA subjectivity (re-verified labels).
 import numpy as np
 import pandas as pd
 import scipy
@@ -62,21 +60,18 @@ def format_axes(ax):
         axis.set_tick_params(direction='in', color=SPINE_COLOR)
     return ax
 
-#apply_template_safe(latexify(columns=2))
-
 if not matplotlib.rcParams.get('text.usetex', False):
     matplotlib.rcParams.update({
         'font.family': 'serif',
         'font.serif': ['Times New Roman', 'Times', 'DejaVu Serif'],
     })
 
-# ====== Config ======
-CSV_PATH = "../Analysis/final_default_state_comprehensive_reclassified.csv"
-OUT_DIR = "paper/figures/new_figures"
+BASE = os.environ.get("PRIVAUDIT_ROOT", os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+CSV_PATH = f"{BASE}/data/final_default_state_comprehensive_NEWLABELS.csv"
+OUT_DIR = f"{BASE}/figures_output"
 OUT_NAME = "ecdf_counts_cookie_types_default_subjected_vs_nonsubjected"
 os.makedirs(OUT_DIR, exist_ok=True)
 
-# Canonical cookie types (matching the new dataset format)
 CANON_TYPES_MAP = {
     "targeting": "Targeting",
     "performance": "Performance",
@@ -94,21 +89,17 @@ TYPE_ORDER = [
     "Unknown",
 ]
 
-# ====== Helpers ======
 def norm_category(val: str) -> str:
-    """Normalize cookie category names."""
     if not isinstance(val, str):
         return "Unknown"
     key = val.strip().lower()
     return CANON_TYPES_MAP.get(key, "Unknown")
 
 def norm_ccpa(val: str) -> str:
-    """Normalize CCPA category to binary groups."""
     v = str(val).strip()
     return "Subjected" if v == "Subject to CCPA" else "Non-Subj."
 
 def to_days(x):
-    """remaining_expiry_time is in seconds; convert to days."""
     try:
         v = float(x)
         return v / 86400.0
@@ -116,7 +107,6 @@ def to_days(x):
         return np.nan
 
 def ecdf(yvals):
-    """Calculate empirical cumulative distribution function."""
     x = np.sort(np.asarray(yvals))
     n = len(x)
     if n == 0:
@@ -124,7 +114,6 @@ def ecdf(yvals):
     y = np.arange(1, n+1) / n
     return x, y
 
-# ====== Load & prepare ======
 print(f"Loading dataset from: {CSV_PATH}")
 df = pd.read_csv(CSV_PATH, dtype=str)
 print(f"Loaded {len(df):,} cookies")
@@ -134,16 +123,13 @@ missing = [c for c in needed if c not in df.columns]
 if missing:
     raise ValueError(f"Missing required columns in CSV: {missing}")
 
-# Normalize
 df["Cookie Type"] = df["category"].apply(norm_category)
 df["Group"] = df["CCPA_Category"].apply(norm_ccpa)
 
-# Convert lifespan to days
 df["lifespan_days"] = df["remaining_expiry_time"].apply(to_days)
 
-# Filter criteria
 mask_type = df["Cookie Type"].isin(TYPE_ORDER)
-mask_session = df["session"].astype(str).str.upper().eq("TRUE")  # drop session cookies
+mask_session = df["session"].astype(str).str.upper().eq("TRUE")
 mask_pos = df["lifespan_days"].notna() & (df["lifespan_days"] > 0)
 
 df_f = df[mask_type & ~mask_session & mask_pos].copy()
@@ -154,10 +140,8 @@ print(f"  Cookie types: {sorted(df_f['Cookie Type'].unique())}")
 print(f"  CCPA groups: {sorted(df_f['Group'].unique())}")
 print(f"  Lifespan range: {df_f['lifespan_days'].min():.2f} - {df_f['lifespan_days'].max():.2f} days")
 
-# ====== Plot ECDFs ======
 fig, ax = plt.subplots(figsize=(6, 4))
 
-# Dynamic colors/markers to support 5+ types
 color_cycle = ["tab:blue", "tab:orange", "tab:green", "tab:red", "tab:purple", "tab:brown", "tab:pink"]
 type_colors = list(islice(cycle(color_cycle), None, len(TYPE_ORDER)))
 marker_cycle = ["o", "s", "^", "D", "P", "X", "v"]
@@ -173,7 +157,6 @@ for i, ctype in enumerate(present_types):
             continue
         x, y = ecdf(vals)
 
-        # Label format: "Type (Group)"
         label = f"{ctype} ({grp})"
 
         ax.plot(
@@ -188,7 +171,6 @@ for i, ctype in enumerate(present_types):
             label=label
         )
 
-# Axes/labels
 ax.set_xlim(0, 400)
 ax.set_ylim(0, 1)
 ax.set_xlabel("Cookie lifespan (days)", fontsize=20)
@@ -199,18 +181,15 @@ for tick in ax.get_yticklabels():
 for tick in ax.get_xticklabels():
     tick.set_fontsize(20)
 
-# Grid and styling
 ax.set_facecolor('w')
 ax.grid(color='black', linestyle='-.', linewidth=0.3, alpha=0.5, which='both')
 ax.xaxis.grid(True)
 ax.tick_params(axis='y', which='major', direction='in', length=4, width=1.0, color='black', bottom=True, left=True)
 ax.tick_params(axis='x', which='major', direction='in', length=4, width=1.0, color='black', bottom=True, left=True)
 
-# Legend: order by TYPE_ORDER then group
 handles, labels = ax.get_legend_handles_labels()
 
 def sort_key(lbl):
-    """Sort legend entries by type order, then by group."""
     for idx, t in enumerate(TYPE_ORDER):
         if lbl.startswith(t):
             return (idx, 0 if "(Subjected)" in lbl else 1)
@@ -220,7 +199,6 @@ order = sorted(range(len(labels)), key=lambda i: sort_key(labels[i]))
 handles = [handles[i] for i in order]
 labels = [labels[i] for i in order]
 
-# Update label text for legend
 label_map = {
     "(Subjected)": "(CCPA-Subject)",
     "(Non-Subj.)": "(CCPA-Not-Subject)"
@@ -237,7 +215,6 @@ leg = ax.legend(handles, new_labels, loc='lower center', ncol=2, fontsize=12, fr
 format_axes(ax)
 fig.tight_layout()
 
-# Save
 pdf_path = os.path.join(OUT_DIR, OUT_NAME + ".pdf")
 png_path = os.path.join(OUT_DIR, OUT_NAME + ".png")
 fig.savefig(pdf_path, bbox_inches="tight")

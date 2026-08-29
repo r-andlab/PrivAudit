@@ -1,1 +1,2 @@
+# Init
 from .result_dto import ResultDTO

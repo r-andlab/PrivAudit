@@ -1,3 +1,4 @@
+# Base scraper
 from src.utils import JsonManager
 from src.config import Config
 

@@ -1,11 +1,10 @@
+// Load Configuration
 import puppeteer from "puppeteer";
 import fs from "fs";
 import { createObjectCsvWriter } from "csv-writer";
 
-// Load Configuration
 const config = JSON.parse(fs.readFileSync("banner_detection/config.json", "utf-8"));
 
-// CSV Writers
 const bannersCsvWriter = createObjectCsvWriter({
     path: "banner_detection/banners_present.csv",
     append: true,
@@ -24,14 +23,12 @@ const manualCsvWriter = createObjectCsvWriter({
     header: [{ id: "Website", title: "Website" }]
 });
 
-// Load Websites List
 const rawWebsites = fs.readFileSync(config.websites_file, "utf-8")
     .split("\n")
     .map(w => w.trim())
     .filter(w => w);
 const websites = rawWebsites.map(domain => `https://${domain.toLowerCase()}`);
 
-// Function to Check Website
 async function checkWebsite(browser, site, attempt = 1) {
     const page = await browser.newPage();
     try {
@@ -41,7 +38,6 @@ async function checkWebsite(browser, site, attempt = 1) {
         let bannerFound = false;
         let detectedCMP = "Unknown";
 
-        // **Step 1: Detect Banner (Ensure It's Visible)**
         await page.waitForFunction(
             () => document.querySelector("div[id*='consent'], div[class*='cmp'], div[id*='onetrust-banner-sdk']"),
             { timeout: 2000 }
@@ -79,7 +75,6 @@ async function checkWebsite(browser, site, attempt = 1) {
             return { Website: site, NoBanner: true };
         }
 
-        // **Step 2: Detect CMP (Ensure Visibility & Handle Iframes)**
         for (let cmp in config.cmp_identifiers) {
             for (let selector of config.cmp_identifiers[cmp]) {
                 const cmpElements = await page.$$(selector);
@@ -103,7 +98,6 @@ async function checkWebsite(browser, site, attempt = 1) {
             }
         }
 
-        // **Step 3: Handle Iframes (Fixes missing banners in iframes)**
         if (!bannerFound) {
             console.log(`[INFO] Checking if banner is inside an iframe...`);
             const frames = page.frames();
@@ -127,7 +121,6 @@ async function checkWebsite(browser, site, attempt = 1) {
             }
         }
 
-        // **Move to Manual Review if No CMP is Found**
         if (bannerFound && detectedCMP === "Unknown") {
             console.log(`[INFO] Banner detected, but CMP is unknown. Moving to manual inspection.`);
             return { Website: site, ManualReview: true };
@@ -143,13 +136,12 @@ async function checkWebsite(browser, site, attempt = 1) {
     }
 }
 
-// **Main Function with Crash Handling**
 (async () => {
     let browser = null;
 
     try {
         browser = await puppeteer.launch({
-            headless: true, // Ensures you see the browser in action
+            headless: true,
             executablePath: config.chrome_executable,
             ignoreDefaultArgs: ["--disable-extensions"],
             args: [

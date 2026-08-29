@@ -1,9 +1,9 @@
+// Load config
 const fs = require("fs");
 const puppeteer = require("puppeteer");
 const csv = require("csv-parser");
 const { parse } = require("json2csv");
 
-// Load config
 const config = JSON.parse(fs.readFileSync("cookie_categorization/config.json"));
 
 const { cookies_to_fetch, failed_cookies, my_cookie_db, process_file } = config.file_paths;
@@ -14,21 +14,19 @@ let failedCookies = new Set(fs.existsSync(failed_cookies) ? JSON.parse(fs.readFi
 let cookieDatabase = {};
 let processData = [];
 
-// Load existing `mycookiebase.csv`
 if (fs.existsSync(my_cookie_db)) {
     const lines = fs.readFileSync(my_cookie_db, "utf-8").split("\n");
     for (let line of lines) {
         const [cookie, category, description] = line.split(",");
         if (cookie) {
-            cookieDatabase[cookie.trim().toLowerCase()] = { 
-                category: category?.trim() || "", 
-                description: description?.trim() || "" 
+            cookieDatabase[cookie.trim().toLowerCase()] = {
+                category: category?.trim() || "",
+                description: description?.trim() || ""
             };
         }
     }
 }
 
-// Load `processed_cookies_banner_present.csv`
 if (fs.existsSync(process_file)) {
     fs.createReadStream(process_file)
         .pipe(csv())
@@ -41,7 +39,6 @@ if (fs.existsSync(process_file)) {
     process.exit(1);
 }
 
-// Fetch cookies from Cookiepedia with Parallel Requests
 async function fetchAndUpdateCookies() {
     if (!fs.existsSync(cookies_to_fetch)) {
         console.log("No cookies to fetch.");
@@ -51,31 +48,28 @@ async function fetchAndUpdateCookies() {
     const cookies = JSON.parse(fs.readFileSync(cookies_to_fetch));
     const browser = await puppeteer.launch({ headless: headlessMode });
 
-    const queue = [...cookies];  // Clone array
+    const queue = [...cookies];
     while (queue.length > 0) {
-        let batch = queue.splice(0, concurrent_requests); // Take `concurrent_requests` cookies at a time
+        let batch = queue.splice(0, concurrent_requests);
         console.log(`Fetching batch: ${batch.join(", ")}`);
-        
+
         const results = await Promise.all(batch.map(cookie => processCookie(browser, cookie)));
 
-        // **Handle Rate Limit: If rate limited, pause for 10 minutes before continuing**
         if (results.includes("rate_limited")) {
             console.log("Rate limit hit! Waiting 10 minutes before retrying...");
             await new Promise(resolve => setTimeout(resolve, 10 * 60 * 1000));
         }
 
-        // **Wait 40-70 seconds before fetching next batch**
         await randomDelay(40, 70);
     }
 
     await browser.close();
-    fs.writeFileSync(cookies_to_fetch, JSON.stringify([]));  // Clear fetch list
+    fs.writeFileSync(cookies_to_fetch, JSON.stringify([]));
     console.log("Completed Cookiepedia fetch and updated all files.");
 }
 
-// Process each cookie
 async function processCookie(browser, cookie) {
-    const lowerCookie = cookie.toLowerCase(); // Normalize case
+    const lowerCookie = cookie.toLowerCase();
     if (failedCookies.has(lowerCookie)) {
         console.log(`Skipping ${cookie} (previously failed)`);
         return;
@@ -92,7 +86,7 @@ async function processCookie(browser, cookie) {
             if (pageContent.includes("Error 1015") || pageContent.includes("You are being rate limited")) {
                 console.log("Rate limit detected! Waiting before retrying...");
                 await page.close();
-                return "rate_limited"; // Signal that a rate limit was hit
+                return "rate_limited";
             }
 
             const category = await page.evaluate(() => document.querySelector("strong")?.innerText.trim() || "Unknown");
@@ -100,19 +94,16 @@ async function processCookie(browser, cookie) {
 
             console.log(`Fetched ${cookie}: ${category} | ${description}`);
 
-            // Check if data is invalid (Unknown category OR no description)
             if (category.toLowerCase() === "unknown" && !description) {
                 console.log(`Marking ${cookie} as failed (Invalid Data)`);
                 failedCookies.add(lowerCookie);
-                saveFailedCookies();  // **Save failed cookies immediately**
+                saveFailedCookies();
                 return;
             }
 
-            // Update `my_cookie_db`
             cookieDatabase[lowerCookie] = { category, description };
-            saveMyCookieDatabase();  // **Save immediately**
+            saveMyCookieDatabase();
 
-            // Update `processed_cookies_banner_present.csv`
             let rowIndex = processData.findIndex(row => row["cookie_name"].toLowerCase() === lowerCookie);
 
             if (rowIndex !== -1) {
@@ -120,7 +111,7 @@ async function processCookie(browser, cookie) {
                 processData[rowIndex]["category"] = category;
                 processData[rowIndex]["description"] = description;
 
-                saveProcessFile();  // Save immediately
+                saveProcessFile();
                 console.log(`Updated ${process_file} with ${cookie}: ${category} | ${description}`);
             } else {
                 console.log(`WARNING: ${cookie} not found in processed file. (Possible case mismatch)`);
@@ -134,7 +125,7 @@ async function processCookie(browser, cookie) {
             attempts++;
             if (attempts >= max_retries) {
                 failedCookies.add(lowerCookie);
-                saveFailedCookies();  // **Save failed cookies immediately**
+                saveFailedCookies();
             }
         }
     }
@@ -142,21 +133,18 @@ async function processCookie(browser, cookie) {
     return "failed";
 }
 
-// Function to generate random delay (40-70 seconds)
 function randomDelay(min, max) {
     const delay = Math.floor(Math.random() * (max - min + 1) + min) * 1000;
     console.log(`Waiting ${delay / 1000} seconds before next request...`);
     return new Promise(resolve => setTimeout(resolve, delay));
 }
 
-// Save `my_cookie_db` immediately
 function saveMyCookieDatabase() {
     const dbLines = Object.entries(cookieDatabase).map(([cookie, data]) => `${cookie},${data.category},${data.description}`);
     fs.writeFileSync(my_cookie_db, dbLines.join("\n"));
     console.log(`Updated ${my_cookie_db} immediately.`);
 }
 
-// Save `processed_cookies_banner_present.csv` immediately
 function saveProcessFile() {
     console.log(`Writing updates to ${process_file}`);
     const csvData = parse(processData);
@@ -164,7 +152,6 @@ function saveProcessFile() {
     console.log(`Updated ${process_file} successfully.`);
 }
 
-// Save failed cookies immediately
 function saveFailedCookies() {
     fs.writeFileSync(failed_cookies, JSON.stringify(Array.from(failedCookies), null, 2));
     console.log(`Updated ${failed_cookies} with failed cookies.`);

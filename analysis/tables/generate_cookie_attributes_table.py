@@ -1,16 +1,10 @@
-#!/usr/bin/env python3
-"""
-Generate cookie attributes and party split table for Default configuration
-"""
-
+# Generate cookie attributes and party split table for Default configuration
 import pandas as pd
 
-# Load reclassified data
 df = pd.read_csv('../Analysis/final_default_state_comprehensive_reclassified.csv', dtype=str, low_memory=False)
 
 print(f"Loaded {len(df)} records from {df['website'].nunique()} websites")
 
-# Cookie types
 cookie_types = ['Targeting', 'Performance', 'Functional', 'Necessary', 'Unknown']
 
 def has_value(val):
@@ -41,10 +35,8 @@ def norm_category(val: str) -> str:
     else:
         return 'Unknown'
 
-# Filter to Default configuration only (initial_cookies)
 default_df = df[df['initial_cookies'].apply(has_value)].copy()
 
-# Normalize all categories
 default_df['category_normalized'] = default_df['category'].apply(norm_category)
 
 print(f"\nDefault configuration cookies: {len(default_df)}")
@@ -59,11 +51,9 @@ for cookie_type in cookie_types:
     if n == 0:
         continue
 
-    # Security attributes
     secure_pct = (type_df['secure'].apply(is_true).sum() / n) * 100
     httponly_pct = (type_df['httpOnly'].apply(is_true).sum() / n) * 100
 
-    # SameSite - check if field has any non-empty value
     samesite_count = 0
     for val in type_df['sameSite']:
         if has_value(val):
@@ -72,7 +62,6 @@ for cookie_type in cookie_types:
                 samesite_count += 1
     samesite_pct = (samesite_count / n) * 100
 
-    # Session cookies (no expiration or expires = -1)
     session_count = 0
     for val in type_df['expires']:
         if pd.isna(val) or str(val).strip() == '':
@@ -83,7 +72,6 @@ for cookie_type in cookie_types:
                 session_count += 1
     session_pct = (session_count / n) * 100
 
-    # First-party vs Third-party based on script_is_third_party
     third_party_count = (type_df['script_is_third_party'] == 'Yes').sum()
     third_party_pct = (third_party_count / n) * 100
     first_party_pct = 100 - third_party_pct
@@ -108,7 +96,6 @@ for cookie_type in cookie_types:
     print(f"  First-Party: {first_party_pct:.1f}%")
     print(f"  Third-Party: {third_party_pct:.1f}%")
 
-# Calculate totals
 total_n = sum(r['n'] for r in results)
 total_secure = sum(r['secure'] * r['n'] for r in results) / total_n
 total_httponly = sum(r['httponly'] * r['n'] for r in results) / total_n
@@ -126,7 +113,6 @@ print(f"  Session: {total_session:.1f}%")
 print(f"  First-Party: {total_first_party:.1f}%")
 print(f"  Third-Party: {total_third_party:.1f}%")
 
-# Generate LaTeX table
 print("\n" + "="*80)
 print("GENERATING LATEX TABLE")
 print("="*80)
@@ -185,7 +171,6 @@ print()
 for line in latex_lines:
     print(line)
 
-# Save to file
 output_file = 'table_cookie_attributes.tex'
 with open(output_file, 'w') as f:
     f.write('\n'.join(latex_lines))

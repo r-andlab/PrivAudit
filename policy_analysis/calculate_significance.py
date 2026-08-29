@@ -1,9 +1,4 @@
-#!/usr/bin/env python3
-"""
-Calculate statistical significance for CCPA subject vs not-subject privacy policy comparisons.
-Generates p-values for all claims in the paper.
-"""
-
+# Calculate statistical significance for CCPA subject vs not-subject privacy policy comparisons.
 import json
 import pandas as pd
 import numpy as np
@@ -13,29 +8,23 @@ import warnings
 warnings.filterwarnings('ignore')
 
 def load_data():
-    """Load and merge policy audit data with subjectivity labels"""
     print("Loading data...")
 
-    # Load policy audit data
     with open('ccpa_policy_audit_all_clean.json', 'r') as f:
         policy_data = json.load(f)
 
-    # Load subjectivity labels
     subjectivity_df = pd.read_csv('policy_subjectivity_joined.csv')
 
-    # Create mappings from both parent_domain and raw_policy_domain to subjectivity_label
     subjectivity_map = {}
     for _, row in subjectivity_df.iterrows():
         label = row['subjectivity_label']
         subjectivity_map[row['parent_domain']] = label
         subjectivity_map[row['raw_policy_domain']] = label
 
-    # Convert policy data to dataframe
     rows = []
     for domain, data in policy_data.items():
         row = {'domain': domain}
 
-        # Add rubric scores
         if 'rubric_assessment' in data:
             rubric = data['rubric_assessment']
             row['completeness_score'] = rubric.get('completeness_score')
@@ -43,7 +32,6 @@ def load_data():
             row['accuracy_score'] = rubric.get('accuracy_score')
             row['policy_contradiction'] = rubric.get('policy_contradiction')
 
-            # Add disclosure map
             if 'disclosure_map' in rubric:
                 disc = rubric['disclosure_map']
                 row['data_collected'] = disc.get('data_collected')
@@ -54,7 +42,6 @@ def load_data():
                 row['right_to_delete'] = disc.get('right_to_delete')
                 row['opt_out'] = disc.get('opt_out')
 
-        # Add behavioral claims
         if 'behavioral_claims' in data:
             behav = data['behavioral_claims']
             row['honors_gpc'] = behav.get('honors_gpc')
@@ -66,7 +53,6 @@ def load_data():
             row['deletes_cookies_on_rejection'] = behav.get('deletes_cookies_on_rejection')
             row['uses_tracking_only_after_consent'] = behav.get('uses_tracking_only_after_consent')
 
-        # Add online/offline data practices mention
         row['mentions_online_practices'] = 'Not mentioned' not in data.get('online_data_practices', 'Not mentioned')
         row['mentions_offline_practices'] = 'Not mentioned' not in data.get('offline_data_practices', 'Not mentioned')
 
@@ -74,10 +60,8 @@ def load_data():
 
     df = pd.DataFrame(rows)
 
-    # Add subjectivity labels
     df['subjectivity'] = df['domain'].map(subjectivity_map)
 
-    # Remove rows without subjectivity labels
     df = df.dropna(subset=['subjectivity'])
 
     print(f"Loaded {len(df)} policies")
@@ -87,7 +71,6 @@ def load_data():
     return df
 
 def mann_whitney_test(df, column, group_col='subjectivity'):
-    """Perform Mann-Whitney U test for ordinal data"""
     subjected = df[df[group_col] == 'subjected'][column].dropna()
     not_subjected = df[df[group_col] == 'not_subjected'][column].dropna()
 
@@ -96,9 +79,8 @@ def mann_whitney_test(df, column, group_col='subjectivity'):
 
     statistic, pvalue = mannwhitneyu(subjected, not_subjected, alternative='two-sided')
 
-    # Calculate effect size (rank-biserial correlation)
     n1, n2 = len(subjected), len(not_subjected)
-    r = 1 - (2*statistic) / (n1 * n2)  # rank-biserial correlation
+    r = 1 - (2*statistic) / (n1 * n2)
 
     return {
         'subjected_median': subjected.median(),
@@ -113,25 +95,21 @@ def mann_whitney_test(df, column, group_col='subjectivity'):
     }
 
 def chi_square_test(df, column, group_col='subjectivity'):
-    """Perform chi-square test for categorical/binary data"""
-    # Create contingency table
-    # Handle different value types
+
     subjected = df[df[group_col] == 'subjected'][column].dropna()
     not_subjected = df[df[group_col] == 'not_subjected'][column].dropna()
 
     if len(subjected) == 0 or len(not_subjected) == 0:
         return None
 
-    # Count True/False or specific values
     if column in ['honors_gpc', 'respects_dnt']:
-        # These have 'unspecified', True, False values
-        # We'll test if they explicitly say True vs (False or unspecified)
+
         subjected_true = (subjected == True).sum()
         subjected_not_true = len(subjected) - subjected_true
         not_subjected_true = (not_subjected == True).sum()
         not_subjected_not_true = len(not_subjected) - not_subjected_true
     else:
-        # Standard True/False
+
         subjected_true = subjected.sum() if subjected.dtype == bool else (subjected == True).sum()
         subjected_not_true = len(subjected) - subjected_true
         not_subjected_true = not_subjected.sum() if not_subjected.dtype == bool else (not_subjected == True).sum()
@@ -142,7 +120,6 @@ def chi_square_test(df, column, group_col='subjectivity'):
         [not_subjected_true, not_subjected_not_true]
     ])
 
-    # Use Fisher's exact test for small sample sizes
     if contingency.min() < 5:
         _, pvalue = fisher_exact(contingency)
         test_used = 'fisher'
@@ -150,7 +127,6 @@ def chi_square_test(df, column, group_col='subjectivity'):
         chi2, pvalue, dof, expected = chi2_contingency(contingency)
         test_used = 'chi2'
 
-    # Calculate effect size (Cramér's V)
     n = contingency.sum()
     phi2 = np.sum((contingency - np.outer(contingency.sum(axis=1),
                                           contingency.sum(axis=0)) / n)**2 /
@@ -171,14 +147,13 @@ def chi_square_test(df, column, group_col='subjectivity'):
     }
 
 def main():
-    # Load data
+
     df = load_data()
 
     print("\n" + "="*80)
     print("STATISTICAL SIGNIFICANCE TESTS FOR CCPA SUBJECT vs NOT-SUBJECT")
     print("="*80)
 
-    # 1. Rubric Scores (Mann-Whitney U test for ordinal data)
     print("\n" + "-"*80)
     print("1. RUBRIC SCORES (Mann-Whitney U Test)")
     print("-"*80)
@@ -204,7 +179,6 @@ def main():
         else:
             print(f"  Not significant (p >= 0.05)")
 
-    # 2. Disclosure Coverage (Chi-square/Fisher's exact test)
     print("\n" + "-"*80)
     print("2. DISCLOSURE COVERAGE (Chi-square/Fisher's Exact Test)")
     print("-"*80)
@@ -232,7 +206,6 @@ def main():
             else:
                 print(f"  Not significant (p >= 0.05)")
 
-    # 3. Behavioral Claims
     print("\n" + "-"*80)
     print("3. BEHAVIORAL CLAIMS (Chi-square/Fisher's Exact Test)")
     print("-"*80)
@@ -259,7 +232,6 @@ def main():
             else:
                 print(f"  Not significant (p >= 0.05)")
 
-    # 4. Online/Offline Data Practices
     print("\n" + "-"*80)
     print("4. DATA PRACTICES MENTIONS (Chi-square/Fisher's Exact Test)")
     print("-"*80)
@@ -286,7 +258,6 @@ def main():
             else:
                 print(f"  Not significant (p >= 0.05)")
 
-    # Save results to JSON for later use
     all_results = {
         'rubric_scores': rubric_results,
         'disclosure_coverage': disclosure_results,
@@ -301,7 +272,6 @@ def main():
     print("Results saved to: statistical_significance_results.json")
     print("="*80)
 
-    # Generate LaTeX-ready table
     print("\n" + "-"*80)
     print("LATEX TABLE FORMAT (for paper)")
     print("-"*80)

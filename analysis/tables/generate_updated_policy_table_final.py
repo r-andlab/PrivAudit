@@ -1,31 +1,25 @@
-#!/usr/bin/env python3
-"""Generate updated policy audit table treating Unknown as Not-Subject."""
-
+# Generate updated policy audit table treating Unknown as Not-Subject.
 import pandas as pd
 import json
 import pickle
 
-# Load data
 print("Loading data files...")
 data_source = pd.read_csv('data_source.csv')
 with open('ccpa_policy_audit_data_source_mapped.json', 'r') as f:
     audit_mapped = json.load(f)
 
-# Normalize website names
 data_source['website_norm'] = data_source['website'].str.strip().str.lower()
 website_to_ccpa = dict(zip(data_source['website_norm'], data_source['ccpa']))
 
 def get_ccpa_category(ccpa_status):
-    """Categorize CCPA status, treating Unknown as Not-Subject."""
     if pd.isna(ccpa_status):
         return 'Not-Subject'
     ccpa_status = str(ccpa_status).lower()
     if 'subjected' in ccpa_status:
         return 'Subject'
-    else:  # revenue_not_suff, non_profit, government, unknown -> all Not-Subject
+    else:
         return 'Not-Subject'
 
-# Categorize each website
 website_categories = {}
 for website in audit_mapped.keys():
     ccpa_status = website_to_ccpa.get(website, None)
@@ -36,7 +30,6 @@ print(f"\nTotal websites with audit data: {len(website_categories)}")
 print(f"Subject: {sum(1 for c in website_categories.values() if c == 'Subject')}")
 print(f"Not-Subject: {sum(1 for c in website_categories.values() if c == 'Not-Subject')}")
 
-# Initialize statistics structure
 stats = {
     'Subject': {
         'count': 0,
@@ -52,7 +45,6 @@ stats = {
     }
 }
 
-# Disclosure keys from rubric_assessment.disclosure_map
 disclosure_keys = {
     'data_collected': 'Data Collection',
     'data_shared': 'Data Sharing',
@@ -63,7 +55,6 @@ disclosure_keys = {
     'right_to_delete': 'Right to Delete'
 }
 
-# Behavioral claims keys
 behavioral_keys = {
     'deletes_cookies_on_rejection': 'Deletes Cookie After Rejecting Consent',
     'sets_cookies_after_rejecting_consent': 'Sets Cookies After Rejecting Consent',
@@ -75,7 +66,6 @@ behavioral_keys = {
     'respects_dnt': 'Honors DNT'
 }
 
-# Initialize counters
 for category in ['Subject', 'Not-Subject']:
     for key in disclosure_keys.values():
         stats[category]['disclosure'][key] = {'true': 0, 'false': 0}
@@ -83,13 +73,11 @@ for category in ['Subject', 'Not-Subject']:
     for key in behavioral_keys.values():
         stats[category]['behavioral'][key] = {'true': 0, 'false': 0, 'unspecified': 0}
 
-    # Mentions
     stats[category]['mentions']['Cookies'] = {'true': 0, 'false': 0}
     stats[category]['mentions']['CCPA'] = {'true': 0, 'false': 0}
     stats[category]['mentions']['Online Data Collection'] = {'true': 0, 'false': 0}
     stats[category]['mentions']['Offline Data Collection'] = {'true': 0, 'false': 0}
 
-# Process each website
 print("\nProcessing audit data...")
 for website, data in audit_mapped.items():
     category = website_categories.get(website, 'Not-Subject')
@@ -102,7 +90,6 @@ for website, data in audit_mapped.items():
     online_practices = audit_data.get('online_data_practices', '')
     offline_practices = audit_data.get('offline_data_practices', '')
 
-    # Count disclosures
     for json_key, display_name in disclosure_keys.items():
         value = disclosure_map.get(json_key, False)
         if value:
@@ -110,7 +97,6 @@ for website, data in audit_mapped.items():
         else:
             stats[category]['disclosure'][display_name]['false'] += 1
 
-    # Count behavioral claims (true/false/unspecified)
     for json_key, display_name in behavioral_keys.items():
         value = behavioral_claims.get(json_key, 'unspecified')
         if isinstance(value, bool):
@@ -127,35 +113,29 @@ for website, data in audit_mapped.items():
             else:
                 stats[category]['behavioral'][display_name]['unspecified'] += 1
 
-    # Mentions detection
     online_lower = online_practices.lower() if online_practices else ''
     offline_lower = offline_practices.lower() if offline_practices else ''
 
-    # Cookies mention
     if 'cookie' in online_lower:
         stats[category]['mentions']['Cookies']['true'] += 1
     else:
         stats[category]['mentions']['Cookies']['false'] += 1
 
-    # CCPA mention
     if 'ccpa' in online_lower or 'california consumer privacy act' in online_lower:
         stats[category]['mentions']['CCPA']['true'] += 1
     else:
         stats[category]['mentions']['CCPA']['false'] += 1
 
-    # Online data collection mention
     if online_practices and len(online_practices.strip()) > 20:
         stats[category]['mentions']['Online Data Collection']['true'] += 1
     else:
         stats[category]['mentions']['Online Data Collection']['false'] += 1
 
-    # Offline data collection mention
     if offline_practices and len(offline_practices.strip()) > 20:
         stats[category]['mentions']['Offline Data Collection']['true'] += 1
     else:
         stats[category]['mentions']['Offline Data Collection']['false'] += 1
 
-# Save statistics to pickle file
 with open('policy_audit_statistics.pkl', 'wb') as f:
     pickle.dump(stats, f)
 
@@ -164,16 +144,12 @@ print(f"\nSample sizes:")
 print(f"  Subject: {stats['Subject']['count']}")
 print(f"  Not-Subject: {stats['Not-Subject']['count']}")
 
-# Generate LaTeX table
 def gradient_cell(value, vmin=0, vmax=100):
-    """Generate gradient cell command."""
     return f"\\gradientcell{{{value:.1f}}}{{{vmin}}}{{{vmax}}}{{red}}{{green}}{{40}}\\%"
 
 def gradient_cell_with_text(value, text, vmin=0, vmax=100):
-    """Generate gradient cell with text."""
     return f"\\gradientcellwtext{{{value:.1f}}}{{{vmin}}}{{{vmax}}}{{red}}{{green}}{{40}}{{{text}}}"
 
-# Calculate percentages and build table
 latex_lines = []
 latex_lines.append("\\begin{table*}[!t]")
 latex_lines.append("\\centering")
@@ -186,7 +162,6 @@ latex_lines.append("\\toprule")
 latex_lines.append("\\textbf{Metric / Claim} & \\textbf{\\texttt{Subject}} & \\textbf{\\texttt{Not-Subject}} & \\textbf{Example Policy excerpt (True cases)} \\\\")
 latex_lines.append("\\midrule")
 
-# Disclosure Coverage section
 latex_lines.append(f"\\textbf{{Disclosure Coverage}} & \\textbf{{$n={stats['Subject']['count']}$}} & \\textbf{{$n={stats['Not-Subject']['count']}$}} &  \\\\")
 latex_lines.append("\\hline")
 
@@ -221,7 +196,6 @@ for metric in ['Data Collection', 'Data Sharing', 'Data Collection Opt Out', 'Pu
 
     row_num += 1
 
-# Mentions section
 latex_lines.append("\\midrule")
 latex_lines.append(f"\\textbf{{Mentions}} & \\textbf{{$n={stats['Subject']['count']}$}} & \\textbf{{$n={stats['Not-Subject']['count']}$}} & \\\\")
 latex_lines.append("\\hline")
@@ -253,7 +227,6 @@ for mention in ['Cookies', 'CCPA', 'Online Data Collection', 'Offline Data Colle
 
     row_num += 1
 
-# Behavioral Claims section
 latex_lines.append("\\midrule")
 latex_lines.append(f"\\textbf{{Behavioral Claims}} & \\textbf{{$n={stats['Subject']['count']}$}} & \\textbf{{$n={stats['Not-Subject']['count']}$}} & \\\\")
 latex_lines.append("\\hline")
@@ -287,7 +260,6 @@ for claim in ['Deletes Cookie After Rejecting Consent', 'Sets Cookies After Reje
     else:
         latex_lines.append(claim)
 
-    # Subject column
     subject_true_text = f'T: {subject_true_pct:.1f}\\%'
     subject_false_text = f'F: {subject_false_pct:.1f}\\%'
     subject_unspec_text = f'U: {subject_unspec_pct:.1f}\\%'
@@ -298,7 +270,6 @@ for claim in ['Deletes Cookie After Rejecting Consent', 'Sets Cookies After Reje
     latex_lines.append(f"                                        {gradient_cell_with_text(subject_unspec_pct, subject_unspec_text, 0, 100)}")
     latex_lines.append("                                    \\end{tabular}")
 
-    # Not-Subject column
     not_subject_true_text = f'T: {not_subject_true_pct:.1f}\\%'
     not_subject_false_text = f'F: {not_subject_false_pct:.1f}\\%'
     not_subject_unspec_text = f'U: {not_subject_unspec_pct:.1f}\\%'
@@ -320,7 +291,6 @@ latex_lines.append("\\bottomrule")
 latex_lines.append("\\end{tabular}%")
 latex_lines.append("\\end{table*}")
 
-# Save LaTeX table
 latex_content = '\n'.join(latex_lines)
 with open('updated_policy_table.tex', 'w') as f:
     f.write(latex_content)

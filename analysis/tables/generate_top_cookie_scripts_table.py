@@ -1,15 +1,11 @@
-#!/usr/bin/env python3
-"""Generate table of top third-party scripts setting first-party targeting cookies."""
-
+# Generate table of top third-party scripts setting first-party targeting cookies.
 import pandas as pd
 import numpy as np
 
-# Load reclassified dataset
 df = pd.read_csv('../Analysis/final_default_state_comprehensive_reclassified.csv', dtype=str, low_memory=False)
 
 print(f'Loaded {len(df)} records from {df["website"].nunique()} websites')
 
-# Helper functions
 def has_value(val):
     if pd.isna(val):
         return False
@@ -36,14 +32,9 @@ def is_third_party(val):
         return False
     return val.strip().lower() in ['yes', 'true', '1']
 
-# Normalize columns
 df['Cookie_Type'] = df['category'].apply(norm_category)
 df['is_3p_script'] = df['script_is_third_party'].apply(is_third_party)
 
-# Filter to:
-# 1. Targeting cookies only
-# 2. Set by third-party scripts
-# 3. In default state (initial_cookies)
 targeting = df[df['Cookie_Type'] == 'Targeting'].copy()
 targeting_3p_scripts = targeting[targeting['is_3p_script']].copy()
 targeting_3p_default = targeting_3p_scripts[targeting_3p_scripts['initial_cookies'].apply(has_value)].copy()
@@ -51,11 +42,9 @@ targeting_3p_default = targeting_3p_scripts[targeting_3p_scripts['initial_cookie
 print(f'\nFiltered to {len(targeting_3p_default)} targeting cookies set by 3P scripts in default state')
 print(f'From {targeting_3p_default["website"].nunique()} websites')
 
-# Use set_by_script_domain column
 script_col = 'set_by_script_domain'
 print(f'\nUsing column: {script_col}')
 
-# Clean up script domains
 def clean_domain(val):
     if not isinstance(val, str):
         return 'Unknown'
@@ -64,33 +53,27 @@ def clean_domain(val):
 
 targeting_3p_default['script_domain'] = targeting_3p_default[script_col].apply(clean_domain)
 
-# Remove 'Unknown' scripts
 targeting_3p_default = targeting_3p_default[targeting_3p_default['script_domain'] != 'Unknown'].copy()
 
 print(f'After filtering unknown domains: {len(targeting_3p_default)} cookies')
 
-# Group by script domain
 script_stats = (
     targeting_3p_default.groupby('script_domain')
     .agg({
-        'cookie_name': 'count',  # number of cookies
-        'website': 'nunique'      # number of websites
+        'cookie_name': 'count',
+        'website': 'nunique'
     })
     .rename(columns={'cookie_name': 'cookies', 'website': 'websites'})
     .sort_values('cookies', ascending=False)
 )
 
-# Calculate percentage of sample websites
 total_websites = df['website'].nunique()
 script_stats['pct_sample'] = (script_stats['websites'] / total_websites) * 100
 
-# Get top 10
 top_10 = script_stats.head(10).copy()
 
-# Calculate total targeting cookies from 3P scripts
 total_targeting_3p = len(targeting_3p_default)
 
-# Calculate cumulative percentage covered by top 10
 top_10_cookies = top_10['cookies'].sum()
 top_10_pct = (top_10_cookies / total_targeting_3p) * 100
 
@@ -102,7 +85,6 @@ print(f'Top 10 cover: {top_10_cookies:,} cookies ({top_10_pct:.1f}%)')
 print(f'\nTop 10 breakdown:')
 print(top_10.to_string())
 
-# Manual categorization of script domains (based on known services)
 script_categories = {
     'www.googletagmanager.com': 'Tag Management',
     'securepubads.g.doubleclick.net': 'Advertising',
@@ -125,7 +107,6 @@ script_categories = {
     'tr.snapchat.com': 'Social / Ads',
 }
 
-# Generate LaTeX table
 latex_lines = []
 latex_lines.append(r'  \begin{table*}[!t]')
 latex_lines.append(r'  \centering')
@@ -142,16 +123,15 @@ for i, (domain, row) in enumerate(top_10.iterrows()):
     websites = int(row['websites'])
     pct_sample = row['pct_sample']
     category = script_categories.get(domain, 'Unknown Service')
-    
-    # Alternate gray rows
+
     if i % 2 == 0:
         prefix = r'  \cellcolor{gray!20}'
     else:
         prefix = r'  '
-    
+
     line = f'{prefix}{domain}\n      & {cookies} & {websites} & '
     line += rf'\gradientcell{{{pct_sample:.1f}}}{{0}}{{60}}{{red}}{{green}}{{40}}\% & {category} \\'
-    
+
     latex_lines.append(line)
 
 latex_lines.append(r'  \bottomrule')
@@ -160,7 +140,6 @@ latex_lines.append(r'  \end{table*}')
 
 latex_output = '\n'.join(latex_lines)
 
-# Save to file
 output_file = 'table_top_cookie_scripts_updated.tex'
 with open(output_file, 'w') as f:
     f.write(latex_output)

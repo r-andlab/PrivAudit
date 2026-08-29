@@ -1,3 +1,4 @@
+// Read websites
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const csvParser = require('csv-parser');
@@ -5,7 +6,6 @@ const csvParser = require('csv-parser');
 async function testGPC() {
   console.log('Testing GPC on 5 websites\n');
 
-  // Read websites
   const websites = [];
   await new Promise((resolve) => {
     fs.createReadStream('input_csv/test_gpc.csv')
@@ -21,7 +21,6 @@ async function testGPC() {
   for (const website of websites) {
     console.log(`Processing: ${website}`);
 
-    // Clean lock before each launch
     try { fs.unlinkSync('./chrome-user-data/SingletonLock'); } catch {}
     try { fs.unlinkSync('./chrome-user-data/Profile 5/SingletonLock'); } catch {}
 
@@ -37,7 +36,6 @@ async function testGPC() {
 
       const page = await browser.newPage();
 
-      // Enable GPC
       console.log('   GPC enabled (Sec-GPC: 1)');
       await page.setExtraHTTPHeaders({ 'Sec-GPC': '1' });
       await page.evaluateOnNewDocument(() => {
@@ -74,7 +72,6 @@ async function testGPC() {
     }
   }
 
-  // Save results
   const csv = [
     'website,cookie_name,category,description,domain,expires,secure,httpOnly,path,gpc_enabled',
     ...results.map(r => `${r.website},${r.cookie_name},${r.category},${r.description},${r.domain},${r.expires},${r.secure},${r.httpOnly},${r.path},${r.gpc_enabled}`)

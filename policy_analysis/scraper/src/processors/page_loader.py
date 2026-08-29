@@ -1,3 +1,4 @@
+# Page loader
 import time
 from src.scrapers import BaseScraper
 from src.config import Config
@@ -9,13 +10,11 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
 class PageLoader(BaseScraper):
-    """Handles page loading and initial processing."""
-    
+
     def __init__(self, driver: webdriver.Chrome):
         super().__init__(driver)
 
     def load_url(self, website_url: str) -> bool:
-        """Attempts to load the initial URL."""
         try:
             self.driver.get(website_url)
             Logger.log(f"PageLoader.load_url() -> Successfully fetched website: {website_url}")
@@ -23,7 +22,7 @@ class PageLoader(BaseScraper):
         except Exception as e:
             Logger.log(f"PageLoader.load_url() -> Failed to fetch website {website_url}: {str(e)}")
             return False
-    
+
     def save_page_source(self, website_url: str) -> bool:
         page_source = self.driver.page_source
         if page_source:
@@ -33,7 +32,6 @@ class PageLoader(BaseScraper):
 
     @TimeoutHandler.with_timeout(Config.TIMEOUT_SECONDS['page_load'], "Page load")
     def attempt_page_load(self) -> bool:
-        """Attempts to wait for page load, returns True even if timeout occurs."""
         Logger.log(f"PageLoader.attempt_page_load() -> Waiting for Page to load with timeout set at - {Config.TIMEOUT_SECONDS['page_load']}s")
         try:
             WebDriverWait(self.driver, Config.TIMEOUT_SECONDS['page_load']).until(
@@ -47,7 +45,6 @@ class PageLoader(BaseScraper):
 
     @TimeoutHandler.with_timeout(Config.TIMEOUT_SECONDS['scroll'], "Page scroll")
     def attempt_scroll(self, pause_time: int = 2) -> bool:
-        """Attempts to scroll the page, returns True even if timeout occurs."""
         Logger.log(f"PageLoader.attempt_scroll() -> Scrolling through the page with timeout set at - {Config.TIMEOUT_SECONDS['scroll']}s")
         try:
             last_height = self.driver.execute_script("return document.body.scrollHeight")

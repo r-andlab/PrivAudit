@@ -1,8 +1,4 @@
-#!/bin/bash
-
 # Retry Failed GPC Collection Script
-# Attempts to collect cookies from previously failed websites with enhanced settings
-
 echo "================================================"
 echo "  GPC Retry Collection for Failed Websites"
 echo "================================================"
@@ -10,7 +6,6 @@ echo ""
 
 cd "$(dirname "$0")"
 
-# Check if failed_websites.txt exists
 if [ ! -f "failed_websites.txt" ]; then
     echo "Error: failed_websites.txt not found!"
     echo "Please wait for main collection to complete first."
@@ -21,7 +16,6 @@ FAILED_COUNT=$(wc -l < failed_websites.txt)
 echo "Found $FAILED_COUNT failed websites to retry"
 echo ""
 
-# Backup existing GPC result files before retry
 if [ -f "result/cookies_banner_present_gpc.csv" ]; then
     echo "Backing up existing GPC results..."
     cp result/cookies_banner_present_gpc.csv result/cookies_banner_present_gpc_before_retry.csv
@@ -45,7 +39,6 @@ echo "Progress will be logged to: retry_gpc_collection.log"
 echo "================================================"
 echo ""
 
-# Run the retry script
 node js/retry_failed_gpc.js 2>&1 | tee retry_gpc_collection.log
 
 echo ""

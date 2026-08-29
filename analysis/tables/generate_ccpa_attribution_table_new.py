@@ -1,15 +1,11 @@
-#!/usr/bin/env python3
-"""Generate CCPA attribution configs table with reclassified data."""
-
+# Generate CCPA attribution configs table with reclassified data.
 import pandas as pd
 import numpy as np
 
-# Load reclassified dataset
 df = pd.read_csv('../Analysis/final_default_state_comprehensive_reclassified.csv', dtype=str, low_memory=False)
 
 print(f'Loaded {len(df)} records from {df["website"].nunique()} websites')
 
-# Helper functions
 def has_value(val):
     if pd.isna(val):
         return False
@@ -45,12 +41,10 @@ def is_third_party(val):
         return False
     return val.strip().lower() in ['yes', 'true', '1']
 
-# Prepare data
 df['Cookie_Type'] = df['category'].apply(norm_category)
 df['CCPA_Group'] = df['CCPA_Category'].apply(normalize_ccpa)
 df['is_3p'] = df['script_is_third_party'].apply(is_third_party)
 
-# Define configurations
 configs = {
     'Default': 'initial_cookies',
     'DNT': 'do_not_track',
@@ -61,7 +55,6 @@ configs = {
 
 cookie_types = ['Targeting', 'Performance', 'Functional', 'Necessary', 'Unknown']
 
-# Calculate statistics
 results = {}
 
 for ccpa_group in ['Subject', 'Not-Subject']:
@@ -73,12 +66,11 @@ for ccpa_group in ['Subject', 'Not-Subject']:
         type_df = ccpa_df[ccpa_df['Cookie_Type'] == cookie_type]
 
         for config_name, config_col in configs.items():
-            # Count cookies in this config
+
             mask = type_df[config_col].apply(has_value)
             count = mask.sum()
             results[ccpa_group][cookie_type][config_name] = count
 
-            # For Default, also calculate 3rd-party percentage
             if config_name == 'Default':
                 if count > 0:
                     third_party_count = type_df[mask]['is_3p'].sum()
@@ -87,14 +79,12 @@ for ccpa_group in ['Subject', 'Not-Subject']:
                     third_party_pct = 0.0
                 results[ccpa_group][cookie_type]['3rd_party_pct'] = third_party_pct
 
-# Calculate totals
 for ccpa_group in ['Subject', 'Not-Subject']:
     results[ccpa_group]['Total'] = {}
     for config_name in configs.keys():
         total = sum(results[ccpa_group][ct][config_name] for ct in cookie_types)
         results[ccpa_group]['Total'][config_name] = total
 
-    # Total 3rd-party percentage for Default
     default_total = results[ccpa_group]['Total']['Default']
     if default_total > 0:
         ccpa_df = df[df['CCPA_Group'] == ccpa_group]
@@ -105,7 +95,6 @@ for ccpa_group in ['Subject', 'Not-Subject']:
         third_party_pct = 0.0
     results[ccpa_group]['Total']['3rd_party_pct'] = third_party_pct
 
-# Print summary
 print('\n' + '='*100)
 print('Cookie Counts by Type, CCPA Status, and Configuration')
 print('='*100)
@@ -124,7 +113,6 @@ for cookie_type in cookie_types + ['Total']:
     print(f'  Default: {data["Default"]:,} ({data["3rd_party_pct"]:.1f}% 3rd-party)')
     print(f'  DNT: {data["DNT"]:,}, Block3P: {data["Block3P"]:,}, uBlock: {data["uBlock"]:,}, GPC: {data["GPC"]:,}')
 
-# Generate LaTeX table
 latex_lines = []
 latex_lines.append(r'  \begin{table*}[!t]')
 latex_lines.append(r'  \caption{Cookie counts by type, CCPA applicability, and privacy configuration. Default state shows N cookies and third-party attribution percentage.')
@@ -142,7 +130,6 @@ latex_lines.append(r'   & \textbf{N} & \textbf{\%} & \textbf{N} & \textbf{N} & \
 latex_lines.append(r'  \textbf{N} \\')
 latex_lines.append(r'  \midrule')
 
-# Add data rows
 for cookie_type in cookie_types:
     subj_data = results['Subject'][cookie_type]
     notsubj_data = results['Not-Subject'][cookie_type]
@@ -156,7 +143,6 @@ for cookie_type in cookie_types:
 
 latex_lines.append(r'  \midrule')
 
-# Add total row
 subj_data = results['Subject']['Total']
 notsubj_data = results['Not-Subject']['Total']
 
@@ -172,7 +158,6 @@ latex_lines.append(r'  \end{table*}')
 
 latex_output = '\n'.join(latex_lines)
 
-# Save to file
 output_file = 'table_ccpa_attribution_configs_updated.tex'
 with open(output_file, 'w') as f:
     f.write(latex_output)

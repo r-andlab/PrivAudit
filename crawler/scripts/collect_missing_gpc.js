@@ -1,25 +1,20 @@
-#!/usr/bin/env node
-
+// usr/bin/env node
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 
-// Paths
 const WEBSITES_FILE = 'websites_to_collect_gpc.txt';
 const OUTPUT_FILE = 'gpc_only_data/cookies_missing_gpc.csv';
 const LOG_FILE = 'missing_gpc_collection.log';
 const FAILED_FILE = 'missing_gpc_failed.txt';
 const ZERO_COOKIES_FILE = 'gpc_only_data/websites_zero_cookies_gpc.txt';
 
-// Chrome paths
 const CHROME_USER_DATA = './chrome-user-data/';
 const CHROME_EXECUTABLE = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const PROFILE_DIR = 'Profile 5';
 
-// CSV header
 const CSV_HEADER = 'website,cookie_name,category,description,domain,expires,remaining_expiry_time,secure,httpOnly,path,priority,sameSite,session,timestamp,gpc_enabled\n';
 
-// Load websites
 const websites = fs.readFileSync(WEBSITES_FILE, 'utf-8')
   .split('\n')
   .map(line => line.trim())
@@ -27,7 +22,6 @@ const websites = fs.readFileSync(WEBSITES_FILE, 'utf-8')
 
 console.log(`Loaded ${websites.length} websites to collect`);
 
-// Initialize output file
 if (!fs.existsSync(OUTPUT_FILE)) {
   fs.writeFileSync(OUTPUT_FILE, CSV_HEADER);
 }
@@ -57,7 +51,6 @@ function escapeCSV(value) {
 async function collectCookies(website) {
   let browser;
 
-  // Try multiple strategies
   const strategies = [
     { protocol: 'https', waitUntil: 'networkidle2', timeout: 30000 },
     { protocol: 'https', waitUntil: 'domcontentloaded', timeout: 45000 },
@@ -86,13 +79,12 @@ async function collectCookies(website) {
           '--disable-dev-shm-usage',
           '--disable-blink-features=AutomationControlled',
           '--ignore-certificate-errors',
-          '--disable-http2'  // Disable HTTP/2 to avoid protocol errors
+          '--disable-http2'
         ]
       });
 
       const page = await browser.newPage();
 
-      // Set GPC header and JS property
       await page.setExtraHTTPHeaders({ 'Sec-GPC': '1' });
       await page.evaluateOnNewDocument(() => {
         Object.defineProperty(navigator, 'globalPrivacyControl', {
@@ -108,10 +100,8 @@ async function collectCookies(website) {
         timeout: strategy.timeout
       });
 
-      // Wait a bit for cookies to settle
       await new Promise(resolve => setTimeout(resolve, 3000));
 
-      // Get cookies
       const cookies = await page.cookies();
 
       if (cookies.length === 0) {
@@ -122,7 +112,6 @@ async function collectCookies(website) {
         log(`[OK] ${website}: ${cookies.length} cookies`);
       }
 
-      // Write cookies to CSV
       if (cookies.length > 0) {
         const rows = cookies.map(cookie => {
           const expiresDate = cookie.expires > 0 ? new Date(cookie.expires * 1000) : null;
@@ -132,8 +121,8 @@ async function collectCookies(website) {
           return [
             escapeCSV(website),
             escapeCSV(cookie.name),
-            escapeCSV(''), // category
-            escapeCSV(''), // description
+            escapeCSV(''),
+            escapeCSV(''),
             escapeCSV(cookie.domain),
             escapeCSV(expiresStr),
             escapeCSV(remainingExpiry),
@@ -144,7 +133,7 @@ async function collectCookies(website) {
             escapeCSV(cookie.sameSite || ''),
             escapeCSV(cookie.session ? 'Yes' : 'No'),
             escapeCSV(new Date().toISOString()),
-            escapeCSV(cookie.name) // gpc_enabled field
+            escapeCSV(cookie.name)
           ].join(',');
         }).join('\n') + '\n';
 
@@ -156,17 +145,16 @@ async function collectCookies(website) {
       return true;
 
     } catch (error) {
-      // Close browser if error occurred
+
       if (browser) await browser.close().catch(() => {});
 
-      // If this is the last strategy, log failure
       if (strategyIdx === strategies.length - 1) {
         log(`[FAIL] ${website}: ${error.message}`);
         failedSites.push(website);
         failCount++;
         return false;
       }
-      // Otherwise, continue to next strategy
+
     }
   }
 
@@ -185,16 +173,13 @@ async function main() {
     log(`[${i + 1}/${websites.length}] Processing: ${website}`);
     await collectCookies(website);
 
-    // Small delay between sites
     await new Promise(resolve => setTimeout(resolve, 2000));
   }
 
-  // Save failed sites
   if (failedSites.length > 0) {
     fs.writeFileSync(FAILED_FILE, failedSites.join('\n') + '\n');
   }
 
-  // Save zero-cookie sites
   if (zeroCookiesSites.length > 0) {
     fs.writeFileSync(ZERO_COOKIES_FILE, zeroCookiesSites.join('\n') + '\n');
   }

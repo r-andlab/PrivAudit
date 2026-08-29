@@ -1,22 +1,16 @@
-#!/bin/bash
 # Test GPC collection on 5 websites
-
 cd "$(dirname "$0")"
 
 echo "Testing GPC data collection on 5 websites..."
 echo ""
 
-# Backup original config reference
 cp js/cookie_profile_test.js js/cookie_profile_test.js.backup
 
-# Update to use test config
 sed -i '' 's|path.join(__dirname, "config.json")|path.join(__dirname, "config_test_gpc.json")|' js/cookie_profile_test.js
 
-# Run test
 echo "Running test collection..."
 node js/cookie_profile_test.js 2>&1 | tee test_gpc.log
 
-# Restore original
 mv js/cookie_profile_test.js.backup js/cookie_profile_test.js
 
 echo ""

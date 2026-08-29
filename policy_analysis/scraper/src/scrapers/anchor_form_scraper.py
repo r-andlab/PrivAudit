@@ -1,3 +1,4 @@
+# Keywords for filtering relevant privacy-related links
 import re
 from typing import Dict, List, Union
 from .base_scraper import BaseScraper
@@ -12,9 +13,7 @@ from selenium.common.exceptions import StaleElementReferenceException
 from sentence_transformers import SentenceTransformer, util
 
 class AnchorFormScraper(BaseScraper):
-    """Scraper class for extracting URLs, forms, and context for anchor tags from the Privacy Policy page."""
-    
-    # Keywords for filtering relevant privacy-related links
+
     PRIVACY_KEYWORDS__IN_ANCHOR_TEXT = {
         "Right of Deletion", "this form", "form", "here", "our form", "link", "help center", "delete", "just ask", "webform", "United States Regional Privacy Notice",
         "California Consumer Privacy Act", "CCPA", "contact us", "customer service", "U.S. Consumer Privacy Notice", "California Privacy Disclosure", "click here", "request", "privacy notice",
@@ -64,20 +63,18 @@ class AnchorFormScraper(BaseScraper):
             "If you would like to access your personal information or obtain a copy of your personal information in a portable manner"
         ]
         self.reference_embeddings = self.model.encode(self.reference_texts, convert_to_tensor=True)
-    
+
     def is_privacy_related(self, url: str, text: str, context: str) -> bool:
-        """Check if the URL, text, or context contains privacy-related keywords."""
         lower_text = text.lower()
         lower_context = context.lower()
         lower_url = url.lower()
 
-        # Split URL on special characters
         url_parts = re.split(r'[/\?=#&._-]+', lower_url)
 
         return (
         any(
             re.search(rf"\b{re.escape(keyword)}\b", lower_text) or
-            keyword.lower() in url_parts  # Whole word match in URL
+            keyword.lower() in url_parts
             for keyword in self.PRIVACY_KEYWORDS__IN_ANCHOR_TEXT
         ) or
         any(
@@ -86,71 +83,59 @@ class AnchorFormScraper(BaseScraper):
         )
     )
 
-    # @TimeoutHandler.with_timeout(Config.TIMEOUT_SECONDS['anchor_form_search'], "Anchor Form search")
-
     def extract_anchor_tags_with_context(self) -> Union[List, Dict]:
-        """
-        Extracts privacy-related anchor tags from the current page.
-        Returns a set of relevant URLs for further processing.
-        """
         try:
             self.reset_page_state()
             anchor_tags = self.driver.find_elements(By.TAG_NAME, 'a')
-            
+
             for anchor in anchor_tags:
-                # Get the outerHTML to uniquely identify the element
+
                 element_html = anchor.get_attribute('outerHTML')
-                
-                # Skip if already processed on this page
+
                 if element_html in self.processed_elements:
                     continue
-                
+
                 href = anchor.get_attribute('href')
                 anchor_text = anchor.text.strip()
-                
-                # Basic filtering conditions
+
                 if not href or href.startswith("#") or href.startswith("mailto:") or not anchor_text:
                     continue
-                
+
                 try:
-                    # Get context from parent element
+
                     parent = anchor.find_element(By.XPATH, '..')
                     context_text = parent.text.strip()
-                    
-                    # Check if URL is privacy-related
+
                     if self.is_privacy_related(href, anchor_text, context_text):
-                        # Store URL details
+
                         self.urls_with_text[href] = {
                             "text": anchor_text,
                             "context": context_text if context_text else "No context"
                         }
                         self.privacy_related_urls.add(href)
-                    
-                    # Mark as processed for this page
+
                     self.processed_elements.add(element_html)
-                    
+
                 except StaleElementReferenceException:
                     Logger.log(f"Stale element encountered while processing anchor: {href}")
                     continue
-            
+
             return [list(self.privacy_related_urls), self.urls_with_text]
         except Exception as e:
             Logger.log(f"Error in extract_anchor_tags_with_context: {str(e)}")
             return [[], {}]
-        
+
     def is_context_relevant(self, anchor_text: str, surrounding_text: str) -> bool:
-        """Checks if the anchor context is relevant using sentence similarity."""
         if not surrounding_text.strip():
-            return False  # Skip empty or irrelevant surrounding text
-        
+            return False
+
         context_embedding = self.model.encode(surrounding_text, convert_to_tensor=True)
         similarity_scores = util.pytorch_cos_sim(context_embedding, self.reference_embeddings)
-        
+
         Logger.log(f"Similarity score  : {similarity_scores.max().item()}")
-        return similarity_scores.max().item() > 0.6  # Threshold for relevance
-    
+        return similarity_scores.max().item() > 0.6
+
     def reset_page_state(self):
-        """Resets the state for processing a new page."""
         self.processed_elements.clear()
         self.privacy_related_urls.clear()
         self.urls_with_text = {}
@@ -162,7 +147,7 @@ class AnchorFormScraper(BaseScraper):
             anchors = self.driver.find_elements(By.TAG_NAME, 'a')
 
             anchor_keywords = {"Download Your Data", "Right of Deletion", "contact us", "here", "account settings",
-                            "click here", "Request Data", "Delete Account", "Notice of Right to Opt-Out", 
+                            "click here", "Request Data", "Delete Account", "Notice of Right to Opt-Out",
                             "Help Center", "Your Privacy Choices", "support page", "chat bot", "opt-out"}
 
             for anchor in anchors:
@@ -173,22 +158,9 @@ class AnchorFormScraper(BaseScraper):
                     anchor_text = (anchor.text or anchor.get_attribute("innerText") or "").strip()
 
                     parent_text = anchor.find_element(By.XPATH, '..').text.strip() if anchor.find_element(By.XPATH, '..').text else ""
-                    # try:
-                    #     parent_element = anchor.find_element(By.XPATH, '..')
-                    #     parent_text = (parent_element.text or "").strip()
 
-                    #     # If parent text is empty, check for text inside child <span> elements
-                    #     if not parent_text:
-                    #         span_elements = parent_element.find_elements(By.TAG_NAME, 'span')
-                    #         span_text_list = [span.text.strip() for span in span_elements if span.text.strip()]
-                    #         parent_text = " ".join(span_text_list)  # Combine text from spans if found
-
-                    # except Exception as e:
-                    #     Logger.log(f"Exception while fetching parent: {href}")
-                    #     parent_text = ""
                     context_text = parent_text if parent_text else "No context"
 
-                    # Create a unique key using href, anchor text, and parent text (limit to 30 chars)
                     unique_key = f"{href}|{anchor_text[:30]}|{parent_text[:100]}"
 
                     Logger.log(f"Href text : {href[:max_length]}")
@@ -200,10 +172,10 @@ class AnchorFormScraper(BaseScraper):
                     if href and unique_key not in self.processed_elements:
                         if is_mailto_email or any(word.lower() in anchor_text.lower() for word in anchor_keywords):
                             if self.is_context_relevant(anchor_text, context_text):
-                                self.urls_with_text[href] = self.urls_with_text.get(href, [])  # Ensure list structure
+                                self.urls_with_text[href] = self.urls_with_text.get(href, [])
                                 self.urls_with_text[href].append({"text": anchor_text, "context": context_text})
                                 self.privacy_related_urls.add(href)
-                        self.processed_elements.add(unique_key)  # Track this unique instance
+                        self.processed_elements.add(unique_key)
 
                 except StaleElementReferenceException:
                     Logger.log(f"Stale element encountered while processing anchor: {href}")
@@ -215,24 +187,20 @@ class AnchorFormScraper(BaseScraper):
             return [[], {}]
 
     def extract_forms(self, website_url: str) -> dict:
-        """Extracts all form tags, captures screenshots and HTML, and sets a flag if forms are found."""
         self.processed_elements.clear()
-        
+
         forms = self.driver.find_elements(By.TAG_NAME, 'form')
         subfolder_paths = self.file_manager.get_subfolder_paths(website_url)
-        
-        form_count = 0  # Track number of unique forms processed
+
+        form_count = 0
 
         for form in forms:
-            # Get the outerHTML to uniquely identify the form
+
             form_html = form.get_attribute('outerHTML')
 
-            # Skip if form was already processed
             if form_html in self.processed_elements:
-                continue  
+                continue
 
-            # Capture screenshots and HTML only if form is visible
-            # if form.is_displayed():
             self.file_manager.capture_screenshots(
                 self.driver, form, website_url, 'form', subfolder_paths
             )
@@ -241,9 +209,7 @@ class AnchorFormScraper(BaseScraper):
                 self.driver, form, website_url, 'form', subfolder_paths
             )
 
-            # Mark this form as processed and increase count
             self.processed_elements.add(form_html)
-            form_count += 1  
-        
-        # Store a simple JSON to indicate if forms were found or not
+            form_count += 1
+
         return {website_url: form_count}

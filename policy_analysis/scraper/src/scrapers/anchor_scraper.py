@@ -1,3 +1,4 @@
+# Initialize category embeddings
 from typing import Dict, List, Optional, Tuple, Union
 from .base_scraper import BaseScraper
 from src.config import Config
@@ -11,7 +12,6 @@ from selenium.common.exceptions import StaleElementReferenceException
 from sentence_transformers import SentenceTransformer, util
 
 class AnchorScraper(BaseScraper):
-    """Scraper class for extracting URLs, forms, and context for anchor tags from the Privacy Policy page."""
 
     def __init__(self, driver: webdriver.Chrome):
         super().__init__(driver)
@@ -24,11 +24,9 @@ class AnchorScraper(BaseScraper):
 
         self.model = SentenceTransformer("all-MiniLM-L6-v2")
 
-        # Initialize category embeddings
         self.initialize_category_embeddings()
 
     def reset_page_state(self):
-        """Resets the state for processing a new page."""
         self.processed_elements.clear()
         self.privacy_related_urls.clear()
         self.urls_with_text = {}
@@ -37,21 +35,18 @@ class AnchorScraper(BaseScraper):
     def is_redirect_to_same_url(self, href: str, website_url: str) -> bool:
 
         def normalize_url(href: str) -> str:
-            """Removes query parameters and fragments from a URL."""
             parsed_url = urlparse(href)
             return urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, '', '', ''))
-        
+
         if href.startswith("mailto:"):
             return False
-        
-        # Normalize the given URL
+
         normalized_url = normalize_url(href)
 
         return normalized_url == website_url
-    
+
     def initialize_category_embeddings(self):
-        """Initializes privacy-related categories with reference texts and precomputes their embeddings."""
-        
+
         self.CATEGORY_STATEMENTS = {
             "Right_To_Delete": [
                 "To delete your account and associated data, follow the instructions provided on our support page."
@@ -254,16 +249,14 @@ class AnchorScraper(BaseScraper):
             ]
         }
 
-        # Precompute category embeddings for similarity comparison
         self.category_embeddings = {
             category: self.model.encode(statements, convert_to_tensor=True)
             for category, statements in self.CATEGORY_STATEMENTS.items()
         }
-    
+
     def get_best_matching_category(self, context_text: str) -> Tuple[Optional[str], float]:
-        """Finds the most relevant category based on similarity score."""
         if not context_text.strip():
-            return None, 0.0  # Skip empty context
+            return None, 0.0
 
         context_embedding = self.model.encode(context_text, convert_to_tensor=True)
 
@@ -285,21 +278,20 @@ class AnchorScraper(BaseScraper):
     def extract_anchor_tags(self, website_url: str) -> Union[List, Dict]:
         try:
             self.reset_page_state()
-            
-            # Find all elements that contain an <a> tag
-            parent_elements = self.driver.find_elements(By.XPATH, "//*[a]")  # Any element that has an <a> tag inside
+
+            parent_elements = self.driver.find_elements(By.XPATH, "//*[a]")
 
             anchor_keywords = {"Download Your Data", "Right of Deletion", "contact us", "here", "account settings",
-                            "click here", "Request Data", "Delete Account", "Notice of Right to Opt-Out", 
+                            "click here", "Request Data", "Delete Account", "Notice of Right to Opt-Out",
                             "Help Center", "Your Privacy Choices", "support page", "chat bot", "opt-out"}
 
             for parent in parent_elements:
                 try:
-                    anchor_tags = parent.find_elements(By.TAG_NAME, "a")  # Find all anchor tags inside this element
+                    anchor_tags = parent.find_elements(By.TAG_NAME, "a")
 
                     for anchor in anchor_tags:
                         max_length = 50
-                        
+
                         href = anchor.get_attribute("href") or ""
                         if not href:
                             continue
@@ -314,22 +306,21 @@ class AnchorScraper(BaseScraper):
 
                         parent_text = parent.text.strip() if parent.text else ""
 
-                        # Create a unique key using href, anchor text, and parent text (limit to 30 chars)
                         unique_key = f"{href}|{anchor_text[:30]}|{parent_text[:100]}"
 
                         Logger.log(f"Href text : {href[:max_length]}")
                         Logger.log(f"Anchor text : {anchor_text[:max_length]}")
                         Logger.log(f"Parent text : {parent_text[:max_length]}")
-                       
+
                         if any(keyword in href for keyword in skip_keywords_for_href):
                             matched_category, similarity_score = "Bypass", 0.0
                         else:
-                             # Find the most relevant category for the context
+
                             matched_category, similarity_score = self.get_best_matching_category(parent_text)
 
                         if unique_key not in self.processed_elements:
-                            if matched_category:  # Store only if a category is identified
-                                self.urls_with_text[href] = self.urls_with_text.get(href, [])  # Ensure list structure
+                            if matched_category:
+                                self.urls_with_text[href] = self.urls_with_text.get(href, [])
                                 self.urls_with_text[href].append({
                                     "text": anchor_text,
                                     "context": parent_text,
@@ -338,7 +329,7 @@ class AnchorScraper(BaseScraper):
                                 })
                                 self.privacy_related_urls.add(href)
 
-                            self.processed_elements.add(unique_key)  # Track this unique instance
+                            self.processed_elements.add(unique_key)
 
                 except StaleElementReferenceException:
                     Logger.log(f"Stale element encountered while processing anchor: {href}")

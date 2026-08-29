@@ -1,17 +1,9 @@
-#!/usr/bin/env python3
-"""
-Merge GPC data with existing cookie collection results.
-
-This script combines the newly collected GPC data (Profile 5) with
-the existing data from other profiles (1, 11, 2, 3, 4, 6, 9).
-"""
-
+# Merge GPC data with existing cookie collection results.
 import pandas as pd
 import sys
 from datetime import datetime
 
 def merge_gpc_data(scenario):
-    """Merge GPC data for a specific scenario (banner_present or banner_not_present)"""
 
     old_file = f"result/cookies_{scenario}.csv"
     gpc_file = f"result/cookies_{scenario}_gpc.csv"
@@ -21,7 +13,6 @@ def merge_gpc_data(scenario):
     print(f"\nProcessing: {scenario}")
     print("=" * 60)
 
-    # Check if files exist
     try:
         df_old = pd.read_csv(old_file)
         print(f"Loaded existing data: {len(df_old)} rows, {len(df_old.columns)} columns")
@@ -36,16 +27,13 @@ def merge_gpc_data(scenario):
         print(f"Error: {gpc_file} not found! Run GPC collection first.")
         return False
 
-    # Backup old file
     df_old.to_csv(backup_file, index=False)
     print(f"Backed up existing data to: {backup_file}")
 
-    # Check if gpc_enabled already exists
     if 'gpc_enabled' in df_old.columns:
         print("Warning: gpc_enabled column already exists, dropping it...")
         df_old = df_old.drop('gpc_enabled', axis=1)
 
-    # Merge on website + cookie_name
     print("\nMerging data...")
     df_merged = df_old.merge(
         df_gpc[['website', 'cookie_name', 'gpc_enabled']],
@@ -53,17 +41,14 @@ def merge_gpc_data(scenario):
         how='left'
     )
 
-    # Save merged result
     df_merged.to_csv(output_file, index=False)
     print(f"Saved merged data to: {output_file}")
 
-    # Statistics
     print("\nMerge Statistics:")
     print(f"   - Total rows: {len(df_merged)}")
     print(f"   - Rows with GPC data: {df_merged['gpc_enabled'].notna().sum()}")
     print(f"   - GPC coverage: {100 * df_merged['gpc_enabled'].notna().sum() / len(df_merged):.1f}%")
 
-    # Show column order
     print(f"\nColumn order in output:")
     cols = df_merged.columns.tolist()
     for i, col in enumerate(cols, 1):
@@ -72,7 +57,6 @@ def merge_gpc_data(scenario):
     return True
 
 def analyze_gpc_effectiveness():
-    """Analyze GPC effectiveness compared to other privacy signals"""
 
     print("\n\n" + "=" * 60)
     print("GPC EFFECTIVENESS ANALYSIS")
@@ -90,7 +74,6 @@ def analyze_gpc_effectiveness():
         print(f"\n{scenario.replace('_', ' ').title()}")
         print("-" * 60)
 
-        # Count cookies by profile
         profiles = ['initial_cookies', 'do_not_track', 'gpc_enabled', 'consent_reject', 'ublock']
         profile_counts = {}
 
@@ -100,7 +83,6 @@ def analyze_gpc_effectiveness():
                 profile_counts[profile] = count
                 print(f"   {profile:20s}: {count:6d} cookies")
 
-        # Calculate reductions
         if 'initial_cookies' in profile_counts:
             initial = profile_counts['initial_cookies']
             print(f"\n   Reduction from baseline:")
@@ -111,7 +93,6 @@ def analyze_gpc_effectiveness():
                     reduction = 100 * (initial - count) / initial if initial > 0 else 0
                     print(f"      {profile:20s}: {reduction:5.1f}% reduction")
 
-        # Category breakdown for GPC
         if 'category' in df.columns and 'gpc_enabled' in df.columns:
             gpc_cookies = df[df['gpc_enabled'].notna()]
             if len(gpc_cookies) > 0:
@@ -125,12 +106,11 @@ def main():
     print("GPC DATA MERGE SCRIPT")
     print("=" * 60)
 
-    # Merge both scenarios
     success_bp = merge_gpc_data('banner_present')
     success_nbp = merge_gpc_data('banner_not_present')
 
     if success_bp or success_nbp:
-        # Analyze effectiveness
+
         analyze_gpc_effectiveness()
 
         print("\n\nMERGE COMPLETE!")

@@ -1,7 +1,4 @@
-#!/usr/bin/env python3
-# ===== High-Quality Split-Violin Figure: Subjected vs Non-Subj. =====
-# Updated with: larger figures, minimal whitespace, horizontal legend, larger fonts
-
+# Usage: python plot_split_violin_updated.py  |  Split-violin of cookie categories by CCPA subjectivity (re-verified labels).
 import os, re
 import numpy as np
 import pandas as pd
@@ -10,11 +7,10 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from urllib.parse import urlparse
 
-# ---------- OUTPUT ----------
-OUTDIR = "paper/figures/new_figures"
+BASE = os.environ.get("PRIVAUDIT_ROOT", os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+OUTDIR = f"{BASE}/figures_output"
 os.makedirs(OUTDIR, exist_ok=True)
 
-# ---------- CONFIGS ----------
 RAW_CONFIGS = [
     ("initial_cookies", "Default"),
     ("do_not_track", "DNT"),
@@ -23,20 +19,19 @@ RAW_CONFIGS = [
     ("gpc_enabled", "GPC"),
 ]
 
-# Map raw categories in the CSV to canonical cookie types used in figures
 CANON_TYPES_MAP = {
-    # Targeting
+
     "targeting": "Targeting Cookies",
     "targeting cookies": "Targeting Cookies",
     "advertising": "Targeting Cookies",
-    # Performance
+
     "performance": "Performance Cookies",
     "performance cookies": "Performance Cookies",
     "analytics": "Performance Cookies",
-    # Functional
+
     "functional": "Functional Cookies",
     "functional cookies": "Functional Cookies",
-    # Necessary / strictly necessary
+
     "strictly necessary cookies": "Strictly Necessary Cookies",
     "strictly necessary": "Strictly Necessary Cookies",
     "necessary": "Strictly Necessary Cookies",
@@ -50,29 +45,26 @@ TYPE_ORDER = [
     "Unknown",
 ]
 
-# Group colors
 GROUP_PALETTE = {
-    "Subjected": "#C23B22",   # muted red
-    "Non-Subj.": "#1F77B4",   # tab blue
+    "CCPA-Subject": "#C23B22",
+    "CCPA-Not-Subject": "#1F77B4",
 }
 
-# ---------- STYLE (EVEN LARGER FONTS) ----------
 mpl.rcParams.update({
-    "pdf.fonttype": 42,              # editable text in Illustrator
+    "pdf.fonttype": 42,
     "ps.fonttype": 42,
-    "figure.dpi": 300,               # hi-DPI PNGs
+    "figure.dpi": 300,
     "savefig.dpi": 300,
     "axes.linewidth": 2.0,
     "axes.edgecolor": "black",
     "xtick.major.width": 1.8,
     "ytick.major.width": 1.8,
-    "font.size": 26,                 # EVEN LARGER base font size
+    "font.size": 26,
 })
 sns.set(style="ticks")
 
-# ---------- HELPERS ----------
 def _nonempty_series(s: pd.Series) -> pd.Series:
-    # True iff value is not NaN and not empty string
+
     return (~s.isna()) & (s.astype(str).str.strip() != "")
 
 def _norm_category(val: str) -> str:
@@ -82,15 +74,14 @@ def _norm_category(val: str) -> str:
     return CANON_TYPES_MAP.get(key, "Unknown")
 
 def _norm_group(v: str) -> str:
-    """Normalize CCPA subjectivity into two groups: Subjected vs Non-Subj."""
     v = str(v).strip().lower()
     if v == "subjected":
-        return "Subjected"
+        return "CCPA-Subject"
     if v == "subject to ccpa":
-        return "Subjected"
+        return "CCPA-Subject"
     if "subject" in v and "ccpa" in v:
-        return "Subjected"
-    return "Non-Subj."
+        return "CCPA-Subject"
+    return "CCPA-Not-Subject"
 
 def _clean_host(s: str) -> str:
     if not isinstance(s, str):
@@ -103,10 +94,6 @@ def _clean_host(s: str) -> str:
     return s.lower().strip('.')
 
 def _ensure_cookie_type(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Ensure df has a 'Cookie Type' column using harmonized categories.
-    Uses df['category'] from final_default_state_comprehensive_updated.csv.
-    """
     df = df.copy()
     if "Cookie Type" not in df.columns:
         if "category" not in df.columns:
@@ -122,10 +109,6 @@ def _ensure_cookie_type(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 def _ensure_site(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Ensure we have a normalized site identifier 'site_clean'.
-    Uses the 'website' column from the CSV.
-    """
     if "site_clean" in df.columns:
         return df
     if "website" not in df.columns:
@@ -135,10 +118,6 @@ def _ensure_site(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 def _ensure_presence_cols(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Ensure presence indicator columns present_<config> exist for all RAW_CONFIGS.
-    Presence: config column is non-null and non-empty (NaNs from CSV are preserved).
-    """
     df = df.copy()
     for raw, _ in RAW_CONFIGS:
         pres = f"present_{raw}"
@@ -151,9 +130,6 @@ def _ensure_presence_cols(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 def _ensure_group(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Ensure a 'Group' column exists, derived from 'ccpa' or 'CCPA_Category'.
-    """
     if "Group" in df.columns:
         return df
     df = df.copy()
@@ -166,11 +142,6 @@ def _ensure_group(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 def _melt_all_types_all_configs_with_group(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Return long df: site_clean | Cookie Type | Group | Config | Count
-
-    Count = number of cookies of that type on that site present under each config.
-    """
     df = _ensure_cookie_type(df)
     df = _ensure_site(df)
     df = _ensure_presence_cols(df)
@@ -197,15 +168,14 @@ def _melt_all_types_all_configs_with_group(df: pd.DataFrame) -> pd.DataFrame:
     long_df = pd.concat(parts, ignore_index=True)
     long_df["Cookie Type"] = pd.Categorical(long_df["Cookie Type"], present_types, ordered=True)
     long_df["Config"] = pd.Categorical(long_df["Config"], [lbl for _, lbl in RAW_CONFIGS], ordered=True)
-    long_df["Group"] = pd.Categorical(long_df["Group"], ["Subjected", "Non-Subj."], ordered=True)
+    long_df["Group"] = pd.Categorical(long_df["Group"], ["CCPA-Subject", "CCPA-Not-Subject"], ordered=True)
 
     print(f"[INFO] Long DF rows (site x type x group x config): {len(long_df):,}")
     print(f"[INFO] Sites in long DF: {long_df['site_clean'].nunique():,}")
     return long_df
 
-# ---------- PLOTTING ----------
 def _pretty_cfg_labels(order):
-    # Force a clean two-line label for Block 3rd-party, others as-is
+
     pretty = []
     for lbl in order:
         if "3rd-party" in lbl:
@@ -217,15 +187,9 @@ def _pretty_cfg_labels(order):
 def plot_split_violin_subject_vs_non(long_df: pd.DataFrame,
                                      fname="split_violin_subject_vs_non",
                                      ylim=(0, 30)):
-    """
-    High-quality split-violin faceted by Cookie Type, x = Config,
-    split halves = CCPA Group (Subjected vs Non-Subj.).
-
-    UPDATED: Minimal whitespace, larger figures, horizontal legend at top, larger fonts.
-    """
     cfg_order = [lbl for _, lbl in RAW_CONFIGS]
     type_order = [t for t in TYPE_ORDER if t in set(long_df["Cookie Type"].unique())]
-    group_order = ["Subjected", "Non-Subj."]
+    group_order = ["CCPA-Subject", "CCPA-Not-Subject"]
 
     df = long_df.copy()
     df = df[df["Cookie Type"].isin(type_order)]
@@ -233,10 +197,8 @@ def plot_split_violin_subject_vs_non(long_df: pd.DataFrame,
     df["Group"] = pd.Categorical(df["Group"], group_order, ordered=True)
     df["Cookie Type"] = pd.Categorical(df["Cookie Type"], type_order, ordered=True)
 
-    # === MUCH LARGER FIGURE SIZE TO ACCOMMODATE LEGEND ===
-    # Make each facet wider and taller, plus extra height for legend
-    width = max(18.0, 5.5 * len(type_order))  # INCREASED width
-    height = 9.0                                # INCREASED height for legend and labels
+    width = max(18.0, 5.5 * len(type_order))
+    height = 9.0
 
     g = sns.catplot(
         data=df,
@@ -258,63 +220,53 @@ def plot_split_violin_subject_vs_non(long_df: pd.DataFrame,
     pretty_x = _pretty_cfg_labels(cfg_order)
 
     for ax in g.axes.flat:
-        # Grid with good visibility
+
         ax.grid(True, axis="y", linewidth=1.2, alpha=0.8)
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
 
         ax.set_xlabel("")
-        ax.set_ylabel("Cookies per website", fontsize=34)  # LARGER for readability
-        ax.tick_params(axis="x", labelsize=28)              # LARGER for readability
+        ax.set_ylabel("Cookies per website", fontsize=34)
+        ax.tick_params(axis="x", labelsize=28)
         ax.tick_params(axis="y", labelsize=28, direction="in", length=6, width=1.8, color="black")
 
-        # Fix ticks before labels
         ax.set_xticks(range(len(cfg_order)))
         ax.set_xticklabels(pretty_x, rotation=30, ha="right")
 
         if ylim:
             ax.set_ylim(ylim)
 
-        # Clean facet titles, LARGER font for readability
         ax.set_title(ax.get_title().replace("Cookie Type = ", ""), fontsize=32, fontweight='bold')
 
-        # Increase alpha of violins
         for coll in ax.collections:
             try:
                 coll.set_alpha(0.95)
             except Exception:
                 pass
 
-    # === ADJUST SUBPLOT POSITIONING TO RESERVE SPACE FOR LEGEND ===
     g.fig.subplots_adjust(
-        top=0.82,      # Leave much more space at top for legend
-        bottom=0.20,   # Leave more room at bottom for larger rotated x-labels
-        left=0.05,     # Tight left margin
-        right=0.99,    # Tight right margin
-        wspace=0.12    # MINIMAL spacing between facets
+        top=0.82,
+        bottom=0.20,
+        left=0.05,
+        right=0.99,
+        wspace=0.12
     )
 
-    # === HORIZONTAL LEGEND AT TOP USING SUPTITLE ===
-    # Use matplotlib patches to create manual legend
     from matplotlib.patches import Patch
     from matplotlib.lines import Line2D
 
-    # Remove default legend if exists
     if g._legend is not None:
         g._legend.remove()
 
-    # Create legend elements manually
     legend_elements = [
-        Patch(facecolor=GROUP_PALETTE["Subjected"], label='Subjected'),
-        Patch(facecolor=GROUP_PALETTE["Non-Subj."], label='Non-Subj.')
+        Patch(facecolor=GROUP_PALETTE["CCPA-Subject"], label='CCPA-Subject'),
+        Patch(facecolor=GROUP_PALETTE["CCPA-Not-Subject"], label='CCPA-Not-Subject')
     ]
 
-    # Add legend at a fixed position using figure.legend
-    # Place it in the larger space at top
     leg = g.fig.legend(
         handles=legend_elements,
         loc='lower center',
-        bbox_to_anchor=(0.5, 0.90),  # Position in the larger top space
+        bbox_to_anchor=(0.5, 0.90),
         ncol=2,
         fontsize=28,
         frameon=False,
@@ -325,13 +277,12 @@ def plot_split_violin_subject_vs_non(long_df: pd.DataFrame,
     for text in leg.get_texts():
         text.set_fontweight('bold')
 
-    # Overlay MEDIAN diamonds (slightly larger)
     grouped = df.groupby(["Cookie Type", "Config", "Group"])["Count"].median().reset_index()
     grouped["Config"] = pd.Categorical(grouped["Config"], cfg_order, ordered=True)
     grouped["Group"] = pd.Categorical(grouped["Group"], group_order, ordered=True)
 
     facet_axes = {ax.get_title(): ax for ax in g.axes.flat}
-    jitter = {"Subjected": -0.28, "Non-Subj.": 0.28}
+    jitter = {"CCPA-Subject": -0.28, "CCPA-Not-Subject": 0.28}
     for _, row in grouped.iterrows():
         cookie_type = str(row["Cookie Type"])
         ax = facet_axes[cookie_type]
@@ -339,22 +290,21 @@ def plot_split_violin_subject_vs_non(long_df: pd.DataFrame,
         x = x_idx + jitter[str(row["Group"])]
         ax.plot(
             [x], [row["Count"]],
-            marker="D", markersize=7.5,  # Slightly larger
+            marker="D", markersize=7.5,
             color="black", zorder=5
         )
 
     pdf_path = os.path.join(OUTDIR, f"{fname}.pdf")
     png_path = os.path.join(OUTDIR, f"{fname}.png")
-    # Save WITHOUT bbox_inches="tight" to preserve legend and suptitle
+
     g.fig.savefig(pdf_path, dpi=300)
     g.fig.savefig(png_path, dpi=300)
     plt.close(g.fig)
     print(f"[SAVED] {pdf_path}")
     print(f"[SAVED] {png_path}")
 
-# ---------- WIRING ----------
 if __name__ == "__main__":
-    # low_memory=False to avoid DtypeWarning
-    raw = pd.read_csv("../Analysis/final_default_state_comprehensive_reclassified.csv", low_memory=False)
+
+    raw = pd.read_csv(f"{BASE}/data/final_default_state_comprehensive_NEWLABELS.csv", low_memory=False)
     long_df = _melt_all_types_all_configs_with_group(raw)
     plot_split_violin_subject_vs_non(long_df, ylim=(0, 30))

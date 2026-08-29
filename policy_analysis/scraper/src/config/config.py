@@ -1,8 +1,8 @@
+# Timeout settings
 from enum import Enum
 from pathlib import Path
 
 class Config:
-    """Configuration constants for the scraper."""
 
     BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -23,7 +23,6 @@ class Config:
         ANCHOR_FORM = 'anchor_form'
         ANCHOR = 'anchor'
 
-    # Timeout settings
     TIMEOUT_SECONDS = {
         'page_load': 60,
         'scroll': 30,

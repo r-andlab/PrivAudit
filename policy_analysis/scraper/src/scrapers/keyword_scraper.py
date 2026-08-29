@@ -1,3 +1,4 @@
+# Check if any processed element contains the current element
 from typing import Dict, Set
 from .base_scraper import BaseScraper
 from src.config import Config
@@ -11,7 +12,6 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import StaleElementReferenceException
 
 class KeywordScraper(BaseScraper):
-    """Main scraper class for finding keywords across categories."""
 
     def __init__(self, driver: webdriver.Chrome):
         super().__init__(driver)
@@ -36,11 +36,10 @@ class KeywordScraper(BaseScraper):
         }
 
     def is_element_descendant(self, element: WebElement, processed_elements: Set[WebElement]) -> bool:
-        """Check if the element is a descendant of any already processed element."""
         try:
             for processed in processed_elements:
                 try:
-                    # Check if any processed element contains the current element
+
                     is_descendant = self.driver.execute_script("""
                         return arguments[0].contains(arguments[1]);
                     """, processed, element)
@@ -54,85 +53,63 @@ class KeywordScraper(BaseScraper):
 
     @TimeoutHandler.with_timeout(Config.TIMEOUT_SECONDS['keyword_search'], "Keyword search")
     def search_keywords(self, website_url: str) -> Dict[str, Dict[str, int]]:
-        """Searches for keywords in specific HTML tags and saves related data."""
         self.keyword_counts = {}
-        processed_elements = set()  # Track processed WebElements
-        
-        # Get subfolder paths for this URL
-        # subfolder_paths = self.file_manager.get_subfolder_paths(website_url)
-        
+        processed_elements = set()
+
         try:
-            # Define tags to check for keywords
+
             target_tags = ['a', 'span', 'div', 'p', 'li', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
-            
+
             for tag in target_tags:
                 elements = self.driver.find_elements(By.TAG_NAME, tag)
-                
+
                 for element in elements:
                     try:
-                        # Skip if element is stale
+
                         if not element.is_enabled():
                             continue
-                            
-                        # Skip if element is descendant of already processed element
+
                         if self.is_element_descendant(element, processed_elements):
                             continue
-                        
-                        # Extract text content
+
                         text_content = element.text.strip()
-                        
+
                         if not text_content:
                             continue
-                        
-                        # Track if this element contained any keywords
+
                         found_keyword = False
-                        
-                        # Search for keywords in each category
+
                         for category, keywords in self.categories.items():
-                            category_found = False  # Track if category needs to be added
-                            
+                            category_found = False
+
                             for keyword in keywords:
-                                # Case-insensitive search
+
                                 count = text_content.lower().count(keyword.lower())
-                                
+
                                 if count > 0:
                                     found_keyword = True
                                     category_found = True
-                                    
-                                    # Initialize category if not exists
+
                                     if category not in self.keyword_counts:
                                         self.keyword_counts[category] = {}
-                                    
-                                    # Add or update keyword count
+
                                     if keyword not in self.keyword_counts[category]:
                                         self.keyword_counts[category][keyword] = count
                                     else:
                                         self.keyword_counts[category][keyword] += count
-                                    
-                                    # Capture screenshots and HTML only if element is visible
-                                    # if element.is_displayed():
-                                    #     self.file_manager.capture_screenshots(
-                                    #         self.driver, element, website_url, f'keyword_{category}', subfolder_paths
-                                    #     )
-                                        
-                                    #     self.file_manager.capture_html_element(
-                                    #         self.driver, element, website_url, f'keyword_{category}', subfolder_paths
-                                    #     )
-                        
-                        # Only add to processed elements if we found a keyword
+
                         if found_keyword:
                             processed_elements.add(element)
-                        
+
                     except StaleElementReferenceException:
                         continue
-            
-            # Remove empty categories
+
             self.keyword_counts = {
-                category: keyword_dict 
-                for category, keyword_dict in self.keyword_counts.items() 
+                category: keyword_dict
+                for category, keyword_dict in self.keyword_counts.items()
                 if keyword_dict
             }
-            
+
             Logger.log(f"search_keywords() -> Found keywords in {len(self.keyword_counts)} categories on {website_url}")
             return self.keyword_counts
 

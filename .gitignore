@@ -31,8 +31,13 @@ Thumbs.db
 
 # Outputs (generated at runtime)
 outputs/
+figures_output/
 *.tex
 *.pdf
+
+# Data is shipped only as data.zip; everything unzipped from it is generated
+data/*
+!data/data.zip
 
 # Credentials
 .env

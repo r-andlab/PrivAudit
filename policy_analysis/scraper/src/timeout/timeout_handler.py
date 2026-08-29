@@ -1,3 +1,4 @@
+# Timeout handler
 from contextlib import contextmanager
 import threading
 import _thread
@@ -5,18 +6,10 @@ from typing import Generator, Any, Callable
 from .timeout_exception import TimeoutException
 
 class TimeoutHandler:
-    """Handles operation timeouts using threading."""
-    
+
     @staticmethod
     @contextmanager
     def timeout(seconds: int, operation_name: str = "Operation") -> Generator[None, None, None]:
-        """
-        Context manager that raises TimeoutException if the operation takes longer than specified seconds.
-        
-        Args:
-            seconds: Number of seconds to wait before timeout
-            operation_name: Name of the operation for logging purposes
-        """
         def raise_timeout():
             thread_id = _thread.get_ident()
             for thread in threading.enumerate():
@@ -35,13 +28,6 @@ class TimeoutHandler:
 
     @staticmethod
     def with_timeout(seconds: int, operation_name: str) -> Callable:
-        """
-        Decorator that adds timeout functionality to any function.
-        
-        Args:
-            seconds: Number of seconds to wait before timeout
-            operation_name: Name of the operation for logging purposes
-        """
         def decorator(func: Callable) -> Callable:
             def wrapper(*args: Any, **kwargs: Any) -> Any:
                 with TimeoutHandler.timeout(seconds, operation_name):

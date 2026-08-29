@@ -1,5 +1,4 @@
-#!/bin/bash
-
+# Run missing gpc collection
 echo "========================================"
 echo "  GPC Missing Websites Collection"
 echo "========================================"
