@@ -164,6 +164,16 @@ determinations of legal violations.
 
 ## Citation
 
-```
-[Paper citation will be added upon publication]
+If you use PrivAudit in your research, please cite our paper:
+
+> Mohamed Moustafa Dawoud, Riya Aggarwal, Likith Rahul Krishnamurthy, and Ram Sundara Raman. 2026. PrivAudit: A Dual-Lens Auditing Framework for Website Privacy Practices under the CCPA. In *Proceedings of the 2026 ACM SIGSAC Conference on Computer and Communications Security (CCS '26)*.
+
+```bibtex
+@inproceedings{dawoud2026privaudit,
+  title     = {PrivAudit: A Dual-Lens Auditing Framework for Website Privacy Practices under the {CCPA}},
+  author    = {Dawoud, Mohamed Moustafa and Aggarwal, Riya and Krishnamurthy, Likith Rahul and Sundara Raman, Ram},
+  booktitle = {Proceedings of the 2026 ACM SIGSAC Conference on Computer and Communications Security (CCS '26)},
+  year      = {2026},
+  publisher = {Association for Computing Machinery}
+}
 ```
