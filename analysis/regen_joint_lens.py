@@ -43,15 +43,15 @@ def report(is_subj,tag,drop_exc=False):
 
     gpc_claim=[w for w in subj if str(pol[w]['gpc']).lower()=='true' or pol[w]['gpc'] is True]
     matched=[w for w in gpc_claim if w in has_cookie]
-    both=[w for w in matched if tgt_def.get(w,0)>0 and tgt_gpc.get(w,0)>0]
+    tgtdef=[w for w in matched if tgt_def.get(w,0)>0]      # baseline: set Targeting in Default (denominator for GPC reduction)
     def red(w,d,g): dv=d.get(w,0); gv=g.get(w,0); return (dv-gv)/dv if dv else None
-    lt20=[w for w in both if (red(w,tgt_def,tgt_gpc) or 0)<0.20]
-    no_red=[w for w in both if (red(w,tgt_def,tgt_gpc) or 0)<=0]
-    both3p=[w for w in matched if tp_def.get(w,0)>0 and tp_gpc.get(w,0)>0]
+    lt20=[w for w in tgtdef if (red(w,tgt_def,tgt_gpc) or 0)<0.20]
+    no_red=[w for w in tgtdef if (red(w,tgt_def,tgt_gpc) or 0)<=0]
+    both3p=[w for w in matched if tp_def.get(w,0)>0 and tp_gpc.get(w,0)>0]      # 3p Targeting present in both configs (paper denominator)
     lt20_3p=[w for w in both3p if (red(w,tp_def,tp_gpc) or 0)<0.20]
     nored_3p=[w for w in both3p if (red(w,tp_def,tp_gpc) or 0)<=0]
-    n=len(both) or 1; n3=len(both3p) or 1
-    print(f"  GPC: claim honor {len(gpc_claim)} | matched cookie {len(matched)} | set Tgt both def+gpc {len(both)}")
+    n=len(tgtdef) or 1; n3=len(both3p) or 1
+    print(f"  GPC: claim honor {len(gpc_claim)} | matched cookie {len(matched)} | set Tgt in Default {len(tgtdef)}")
     print(f"       <20% reduction {len(lt20)} ({100*len(lt20)/n:.1f}%) | no reduction {len(no_red)} ({100*len(no_red)/n:.1f}%)")
     print(f"       3p-Tgt both {len(both3p)}: <20% {len(lt20_3p)} ({100*len(lt20_3p)/n3:.1f}%) | no reduction {len(nored_3p)} ({100*len(nored_3p)/n3:.1f}%)")
 
