@@ -133,10 +133,10 @@ def _ensure_group(df: pd.DataFrame) -> pd.DataFrame:
     if "Group" in df.columns:
         return df
     df = df.copy()
-    if "ccpa" in df.columns:
-        df["Group"] = df["ccpa"].map(_norm_group)
-    elif "CCPA_Category" in df.columns:
+    if "CCPA_Category" in df.columns:
         df["Group"] = df["CCPA_Category"].map(_norm_group)
+    elif "ccpa" in df.columns:
+        df["Group"] = df["ccpa"].map(_norm_group)
     else:
         raise ValueError("Need 'Group', 'ccpa', or 'CCPA_Category' column.")
     return df

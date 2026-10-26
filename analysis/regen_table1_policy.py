@@ -25,10 +25,15 @@ CLAIM=[('deletes_cookies_on_rejection','DeletesCookieAfterReject'),('sets_cookie
        ('sets_cookies_before_consent','SetsBeforeConsent'),('uses_tracking_only_after_consent','TrackOnlyAfterConsent'),
        ('sells_data','SellsData'),('shares_with_third_parties','Shares3p'),('honors_gpc','HonorsGPC'),('respects_dnt','HonorsDNT')]
 
+CCPA_RE=re.compile(r'\bccpa\b|\bcpra\b|california consumer privacy act|california privacy rights act|california (resident|privacy|consumer)|1798\.', re.I)
+def policy_text(dom):
+    f=f"{DATA}/policies_text/{re.sub(r'[^a-z0-9]','_',str(dom).lower())}__combined.txt"
+    return open(f,errors='ignore').read() if os.path.exists(f) else None
+
 def compute(catfn):
     st={};
     for g in ('Subject','Not-Subject'):
-        st[g]={'n':0,'disc':{k:0 for k,_ in DISC},'ment':{'Cookies':0,'CCPA':0,'Online':0,'Offline':0},
+        st[g]={'n':0,'ccpa_den':0,'disc':{k:0 for k,_ in DISC},'ment':{'Cookies':0,'CCPA':0,'Online':0,'Offline':0},
                'claim':{k:{'t':0,'f':0,'u':0} for k,_ in CLAIM}}
     for w,rec in audit.items():
         g=catfn(w)
@@ -40,7 +45,10 @@ def compute(catfn):
             if dm.get(k,False) is True: st[g]['disc'][k]+=1
         onl=on.lower()
         if 'cookie' in onl: st[g]['ment']['Cookies']+=1
-        if 'ccpa' in onl or 'california consumer privacy act' in onl: st[g]['ment']['CCPA']+=1
+        pt=policy_text(rec.get('privacy_policy_domain',w))
+        if pt is not None:
+            st[g]['ccpa_den']+=1
+            if CCPA_RE.search(pt): st[g]['ment']['CCPA']+=1
         if on and len(on.strip())>20: st[g]['ment']['Online']+=1
         if off and len(off.strip())>20: st[g]['ment']['Offline']+=1
         for k,_ in CLAIM:
@@ -60,7 +68,11 @@ def show(tag,st):
     print("  DISCLOSURES (True% Subj / Not):")
     for k,lab in DISC: print(f"    {lab:14s} {pc('Subject',st['Subject']['disc'][k]):5.1f} / {pc('Not-Subject',st['Not-Subject']['disc'][k]):5.1f}")
     print("  MENTIONS (True% Subj / Not):")
-    for m in ('Cookies','CCPA','Online','Offline'): print(f"    {m:14s} {pc('Subject',st['Subject']['ment'][m]):5.1f} / {pc('Not-Subject',st['Not-Subject']['ment'][m]):5.1f}")
+    for m in ('Cookies','CCPA','Online','Offline'):
+        if m=='CCPA':
+            d=lambda g: 100*st[g]['ment'][m]/st[g]['ccpa_den'] if st[g]['ccpa_den'] else 0
+            print(f"    {m:14s} {d('Subject'):5.1f} / {d('Not-Subject'):5.1f}   (of policies with shipped text: {st['Subject']['ccpa_den']} / {st['Not-Subject']['ccpa_den']})")
+        else: print(f"    {m:14s} {pc('Subject',st['Subject']['ment'][m]):5.1f} / {pc('Not-Subject',st['Not-Subject']['ment'][m]):5.1f}")
     print("  BEHAVIORAL (T/F/U% Subj || Not):")
     for k,lab in CLAIM:
         s=st['Subject']['claim'][k]; nn=st['Not-Subject']['claim'][k]
